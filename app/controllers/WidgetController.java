@@ -1,11 +1,10 @@
 package controllers;
 
 import models.Widget;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import play.data.Form;
 import play.data.FormFactory;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

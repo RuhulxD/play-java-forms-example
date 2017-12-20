@@ -1,0 +1,58 @@
+@(videos: Seq[VideoData], form: Form[VideoData])
+
+@main("Videos") {
+
+    <h1>Videos</h1>
+
+    @* Flash shows updates to a page *@
+    @flash.asScala.map{ case (name, value) =>
+    <div class="@name">@value</div>
+    }
+
+    <table border=1>
+        <thead >
+            <tr><th>Name</th><th>Year</th><th>Trailer</th><th>youtubeURL</th><th>tags</th><th>Trailer</th><th>Actors</th>
+        </thead>
+        <tbody>
+        @for(w <- videos) {
+            <tr><td>@w.getTitle()</td><td>@w.getYear()</td><td>@w.getTrailer()</td><td>@w.getYoutubeUrl()</td><td>@w.getTags()</td>
+            <td>@w.getTrailer()</td><td>@w.getActors()</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <hr/>
+
+    @* Global errors are not tied to any particular form field *@
+    @if(form.hasGlobalErrors) {
+        @form.globalErrors.asScala.map { error: play.data.validation.ValidationError =>
+            <div>
+                @error.key: @error.message
+            </div>
+        }
+    }
+
+    @helper.form(routes.VideoController.createVideos) {
+        @helper.CSRF.formField
+
+        @helper.inputText(form("title"))
+
+        @helper.inputText(form("year"))
+
+        @helper.inputText(form("type"))
+
+        @helper.inputText(form("poster"))
+
+        @helper.inputText(form("actors"))
+
+        @helper.inputText(form("trailer"))
+
+        @helper.inputText(form("youtubeUrl"))
+
+        @helper.inputText(form("tags"))
+
+        <button type="submit">Create video</button>
+    }
+
+}
