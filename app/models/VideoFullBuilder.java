@@ -7,6 +7,7 @@ import java.util.List;
 public class VideoFullBuilder {
     private @Constraints.Required String title;
     private @Constraints.Required String year;
+    private @Constraints.Required String category;
     private String imdbID;
     private @Constraints.Required String type;
     private String poster;
@@ -223,6 +224,6 @@ public class VideoFullBuilder {
     }
 
     public VideoFull createVideoFull() {
-        return new VideoFull(title, year, imdbID, type, poster, rated, released, runtime, genre, director, writer, actors, plot, imdbRating, imdbVotes, tomatoMeter, tomatoImage, tomatoRating, tomatoReviews, tomatoFresh, tomatoRotten, tomatoConsensus, tomatoUserMeter, tomatoUserRating, tomatoUserReviews, tomatoURL, tomatoDvd, tomatoBoxOffice, tomatoProduction, tomatoWebsite, languages, countries, awards, metascore, season, episode);
+        return new VideoFull(title, year, imdbID, type, poster, category, rated, released, runtime, genre, director, writer, actors, plot, imdbRating, imdbVotes, tomatoMeter, tomatoImage, tomatoRating, tomatoReviews, tomatoFresh, tomatoRotten, tomatoConsensus, tomatoUserMeter, tomatoUserRating, tomatoUserReviews, tomatoURL, tomatoDvd, tomatoBoxOffice, tomatoProduction, tomatoWebsite, languages, countries, awards, metascore, season, episode);
     }
 }

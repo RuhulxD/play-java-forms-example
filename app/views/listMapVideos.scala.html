@@ -1,0 +1,30 @@
+@(videos: Seq[VideoFull])
+
+@main("Videos") {
+
+    <h1>Videos</h1>
+
+    @* Flash shows updates to a page *@
+    @flash.asScala.map{ case (name, value) =>
+    <div class="@name">@value</div>
+    }
+
+    <table border=1>
+        <thead >
+        <tr>
+            <th>Title</th><th>Year</th><th>imdbID</th>
+            <th>Type</th><th>Poster</th><th>Country</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for(w <- videos) {
+        <tr>
+            @w
+        </tr>
+        }
+        </tbody>
+    </table>
+
+    <hr/>
+
+}

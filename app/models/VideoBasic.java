@@ -33,34 +33,39 @@ public class VideoBasic extends BaseModel implements Serializable {
 
     @Constraints.Required
     @JsonProperty("Title")
-    public String title = "";
+    public String title ;
 
     @Constraints.Required
     @JsonProperty("Year")
-    public String year = "";
+    public String year ;
 
     @JsonProperty("imdbID")
-    public String imdbID = "";
+    public String imdbID ;
 
     @Constraints.Required
     @JsonProperty("youtubeURL")
-    public String yURL = "";
+    public String yURL ;
 
 
     @JsonProperty("Type")
-    public String tp = "";
+    public String type ;
+
+    @JsonProperty("Category")
+    public String category ;
 
     @JsonProperty("Poster")
-    public String poster = "";
+    public String poster ;
 
     public  VideoBasic(){
 
     }
-    public VideoBasic(@Constraints.Required String title, @Constraints.Required String year, String imdbID, @Constraints.Required String yURL, String poster) {
+    public VideoBasic(@Constraints.Required String title, @Constraints.Required String year, String imdbID, @Constraints.Required String yURL, String poster, String category) {
         this.title = title;
         this.year = year;
         this.imdbID = imdbID;
         this.yURL = yURL;
         this.poster = poster;
+        this.category = category;
+
     }
 }

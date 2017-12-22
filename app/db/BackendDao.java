@@ -9,10 +9,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class BackendDao {
     private final JPAApi jpaApi;
+    EntityManager em;
 
     @Inject
     public BackendDao(JPAApi jpaApi){
@@ -56,13 +58,37 @@ public class BackendDao {
     public boolean deleteOneVideoFull(long id) {
         EntityManager em = jpaApi.em("default");
         em.getTransaction().begin();
-        Query q = em.createQuery("delete from video_full f where f.id=?1");
+        Query q = em.createQuery("delete from VideoFull f where f.id=?1");
         q.setParameter(1, id);
         int changed = q.executeUpdate();
         em.getTransaction().commit();
         em.close();
         return changed > 0;
     }
+    public EntityManager getEntityManager(){
+        return jpaApi.em("default");
+    }
+
+    public List<VideoFull> search(Map<String, String> map){
+
+        String query = "";
+        boolean flag = true;
+        for(String key: map.keySet()){
+            if(flag){
+                flag = false;
+                query +=" and ";
+            }
+            query += key +" like %"+map.get(key)+" % ";
+        }
+        return search(query);
+    }
+    public List<VideoFull> search(String query){
+        em = getEntityManager();
+        List<VideoFull> result =em.createQuery("select v from VideoFull v where " + query ).getResultList();
+        em.close();
+        return result;
+    }
+
 
 }
 
@@ -73,7 +99,7 @@ CREATE TABLE `VideoFull` (
   `year` varchar(255) DEFAULT NULL,
   `imdb_id` varchar(255) DEFAULT NULL,
   `y_url` varchar(255) DEFAULT NULL,
-  `tp` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
   `poster` varchar(255) DEFAULT NULL,
   `rated` varchar(255) DEFAULT NULL,
   `released` varchar(255) DEFAULT NULL,

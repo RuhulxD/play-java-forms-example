@@ -8,6 +8,8 @@ public class VideoBasicBuilder {
     private String imdbID;
     private @Constraints.Required String type;
     private String poster;
+    private String category;
+    private String yurl;
 
     public VideoBasicBuilder setTitle(@Constraints.Required String title) {
         this.title = title;
@@ -33,8 +35,12 @@ public class VideoBasicBuilder {
         this.poster = poster;
         return this;
     }
+    public VideoBasicBuilder setCategory(String category) {
+        this.category = category;
+        return this;
+    }
 
     public VideoBasic createVideoBasic() {
-        return new VideoBasic(title, year, imdbID, type, poster);
+        return new VideoBasic(title, year, imdbID, yurl, poster, category);
     }
 }

@@ -3,7 +3,7 @@ name := """play-java-forms-example"""
 version := "2.6.x"
 
 lazy val myProject = (project in file("."))
-  .enablePlugins(PlayJava, PlayEbean)
+  .enablePlugins(PlayJava)
 
 
 scalaVersion := "2.12.4"

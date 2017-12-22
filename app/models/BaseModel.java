@@ -1,13 +1,16 @@
 package models;
 
-import io.ebean.Model;
+import javafx.scene.SubScene;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class BaseModel extends Model {
+public class BaseModel {
+    @Id
+    public Long id;
 
-   @Id
-   public Long id;
+    public  BaseModel(){
+        id = System.currentTimeMillis();
+    }
 }
