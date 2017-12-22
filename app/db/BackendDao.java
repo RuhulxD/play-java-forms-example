@@ -1,6 +1,6 @@
 package db;
 
-import models.VideoFull;
+import models.VideoBasic;
 import play.db.jpa.JPAApi;
 
 import javax.inject.Inject;
@@ -21,16 +21,16 @@ public class BackendDao {
         this.jpaApi = jpaApi;
     }
 
-    public VideoFull selectOneVideo(Long id) {
+    public VideoBasic selectOneVideo(Long id) {
         EntityManager em = jpaApi.em("default");
-        Query q = em.createQuery("select f from video_full f where f.id=?1", VideoFull.class);
+        Query q = em.createQuery("select f from video_full f where f.id=?1", VideoBasic.class);
         q.setParameter(1, id);
 
         // its really "awesome" for JPA hibernate that if i dont have result
         // it punch to my face one big exception"
-        VideoFull result = null;
+        VideoBasic result = null;
         try {
-            result = (VideoFull) q.getSingleResult();
+            result = (VideoBasic) q.getSingleResult();
         } catch (NoResultException ex) {
             // nothing needed here
         }
@@ -38,27 +38,27 @@ public class BackendDao {
         return result;
     }
 
-    public List<VideoFull> selectAllVideoFulls() {
+    public List<VideoBasic> selectAllVideoBasics() {
         EntityManager em = jpaApi.em("default");
-        List<VideoFull> result = em.createQuery("SELECT e FROM VideoFull e").getResultList();
+        List<VideoBasic> result = em.createQuery("SELECT e FROM VideoBasic e").getResultList();
         em.close();
         return result;
     }
 
 
-    public boolean addOneVideoFull(VideoFull VideoFull) {
+    public boolean addOneVideoBasic(VideoBasic basic) {
         EntityManager em = jpaApi.em("default");
         em.getTransaction().begin();
-        em.persist(VideoFull);
+        em.persist(basic);
         em.getTransaction().commit();
         em.close();
         return true; //TODO not so good
     }
 
-    public boolean deleteOneVideoFull(long id) {
+    public boolean deleteOneVideoBasic(long id) {
         EntityManager em = jpaApi.em("default");
         em.getTransaction().begin();
-        Query q = em.createQuery("delete from VideoFull f where f.id=?1");
+        Query q = em.createQuery("delete from VideoBasic f where f.id=?1");
         q.setParameter(1, id);
         int changed = q.executeUpdate();
         em.getTransaction().commit();
@@ -69,7 +69,7 @@ public class BackendDao {
         return jpaApi.em("default");
     }
 
-    public List<VideoFull> search(Map<String, String> map){
+    public List<VideoBasic> search(Map<String, String> map){
 
         String query = "";
         boolean flag = true;
@@ -82,9 +82,9 @@ public class BackendDao {
         }
         return search(query);
     }
-    public List<VideoFull> search(String query){
+    public List<VideoBasic> search(String query){
         em = getEntityManager();
-        List<VideoFull> result =em.createQuery("select v from VideoFull v where " + query ).getResultList();
+        List<VideoBasic> result =em.createQuery("select v from VideoBasic v where " + query ).getResultList();
         em.close();
         return result;
     }

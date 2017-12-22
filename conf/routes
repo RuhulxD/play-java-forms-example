@@ -3,13 +3,13 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.WidgetController.index
+GET     /                           controllers.VideoJPAController.index
 
-# Widgets
-GET     /widgets                    controllers.WidgetController.listWidgets
-POST    /widgets                    controllers.WidgetController.createWidget
 
 # Videos
+
+
+
 
 GET     /jpalist                    controllers.VideoJPAController.getVideoList
 GET     /jpaadd                    controllers.VideoJPAController.addVideo

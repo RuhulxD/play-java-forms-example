@@ -1,4 +1,4 @@
-@(form: Form[VideoFull])
+@(form: Form[VideoBasic])
 
 @main("Videos") {
 
@@ -14,15 +14,16 @@
     @* Global errors are not tied to any particular form field *@
     @if(form.hasGlobalErrors) {
         @form.globalErrors.asScala.map { error: play.data.validation.ValidationError =>
-            <div>
-                @error.key: @error.message
-            </div>
+        <div>
+            @error.key: @error.message
+        </div>
         }
     }
 
     @helper.form(routes.VideoJPAController.createVideo) {
         @helper.CSRF.formField
 
+        @helper.inputText(form("category"))
         @helper.inputText(form("category"))
         @helper.inputText(form("title"))
         @helper.inputText(form("poster"))
@@ -31,36 +32,6 @@
         @helper.inputText(form("year"))
         @helper.inputText(form("genre"))
         @helper.inputText(form("actors"))
-        @helper.inputText(form("imdbID"))
-        @helper.inputText(form("countries"))
-        @helper.inputText(form("languages"))
-        @helper.inputText(form("awards"))
-        @helper.inputText(form("director"))
-        @helper.inputText(form("episode"))
-        @helper.inputText(form("imdbRating"))
-        @helper.inputText(form("imdbVotes"))
-        @helper.inputText(form("metascore"))
-        @helper.inputText(form("plot"))
-        @helper.inputText(form("rated"))
-        @helper.inputText(form("released"))
-        @helper.inputText(form("runtime"))
-        @helper.inputText(form("season"))
-        @helper.inputText(form("tomatoBoxOffice"))
-        @helper.inputText(form("tomatoConsensus"))
-        @helper.inputText(form("tomatoDvd"))
-        @helper.inputText(form("tomatoFresh"))
-        @helper.inputText(form("tomatoImage"))
-        @helper.inputText(form("tomatoMeter"))
-        @helper.inputText(form("tomatoProduction"))
-        @helper.inputText(form("tomatoRating"))
-        @helper.inputText(form("tomatoReviews"))
-        @helper.inputText(form("tomatoRotten"))
-        @helper.inputText(form("tomatoURL"))
-        @helper.inputText(form("tomatoUserMeter"))
-        @helper.inputText(form("tomatoUserRating"))
-        @helper.inputText(form("tomatoUserReviews"))
-        @helper.inputText(form("tomatoWebsite"))
-        @helper.inputText(form("writer"))
 
         <button type="submit">Create video</button>
     }

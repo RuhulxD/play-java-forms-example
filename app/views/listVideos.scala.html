@@ -1,4 +1,4 @@
-@(videos: Seq[VideoFull])
+@(videos: Seq[VideoBasic])
 
 @main("Videos") {
 
@@ -21,36 +21,6 @@
             <th>yURL</th>
             <th>year</th>
             <th>actors</th>
-            <th>awards</th>
-            <th>countries</th>
-            <th>director</th>
-            <th>episode</th>
-            <th>genre</th>
-            <th>imdbRating</th>
-            <th>imdbVotes</th>
-            <th>languages</th>
-            <th>metascore</th>
-            <th>plot</th>
-            <th>rated</th>
-            <th>released</th>
-            <th>runtime</th>
-            <th>season</th>
-            <th>tomatoBoxOffice</th>
-            <th>tomatoConsensus</th>
-            <th>tomatoDvd</th>
-            <th>tomatoFresh</th>
-            <th>tomatoImage</th>
-            <th>tomatoMeter</th>
-            <th>tomatoProduction</th>
-            <th>tomatoRating</th>
-            <th>tomatoReviews</th>
-            <th>tomatoRotten</th>
-            <th>tomatoURL</th>
-            <th>tomatoUserMeter</th>
-            <th>tomatoUserRating</th>
-            <th>tomatoUserReviews</th>
-            <th>tomatoWebsite</th>
-            <th>writer</th>
         </tr>
         </thead>
         <tbody>
@@ -65,36 +35,6 @@
                 <td>@w.yURL</td>
                 <td>@w.year</td>
                 <td>@w.actors</td>
-                <td>@w.awards</td>
-                <td>@w.countries</td>
-                <td>@w.director</td>
-                <td>@w.episode</td>
-                <td>@w.genre</td>
-                <td>@w.imdbRating</td>
-                <td>@w.imdbVotes</td>
-                <td>@w.languages</td>
-                <td>@w.metascore</td>
-                <td>@w.plot</td>
-                <td>@w.rated</td>
-                <td>@w.released</td>
-                <td>@w.runtime</td>
-                <td>@w.season</td>
-                <td>@w.tomatoBoxOffice</td>
-                <td>@w.tomatoConsensus</td>
-                <td>@w.tomatoDvd</td>
-                <td>@w.tomatoFresh</td>
-                <td>@w.tomatoImage</td>
-                <td>@w.tomatoMeter</td>
-                <td>@w.tomatoProduction</td>
-                <td>@w.tomatoRating</td>
-                <td>@w.tomatoReviews</td>
-                <td>@w.tomatoRotten</td>
-                <td>@w.tomatoURL</td>
-                <td>@w.tomatoUserMeter</td>
-                <td>@w.tomatoUserRating</td>
-                <td>@w.tomatoUserReviews</td>
-                <td>@w.tomatoWebsite</td>
-                <td>@w.writer</td>
             </tr>
         }
         </tbody>

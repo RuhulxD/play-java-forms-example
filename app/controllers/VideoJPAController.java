@@ -1,10 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import db.BackendDao;
-import models.VideoFull;
-import models.VideoFullBuilder;
+import models.VideoBasic;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -21,42 +19,52 @@ public class VideoJPAController extends Controller {
 
     private final BackendDao backendDao;
     Random random ;
-    private final Form<VideoFull> form;
+    private final Form<VideoBasic> form;
 
     @Inject
     public VideoJPAController(BackendDao backendDao, FormFactory formFactory){
         this.backendDao = backendDao;
         random = new Random(System.currentTimeMillis());
-        form = formFactory.form(VideoFull.class);
+        form = formFactory.form(VideoBasic.class);
     }
 
     public  Result getVideoList(){
-        return ok(ToJson(backendDao.selectAllVideoFulls()));
+        return ok(ToJson(backendDao.selectAllVideoBasics()));
+    }
+
+    public Result index(){
+        return ok(views.html.index.render());
     }
 
     public Result addVideo(){
         String[] actros = {"mosharrof " +" korim ", "opi korim", "abul"};
-        VideoFull full = new VideoFullBuilder().setImdbID("ok "+random.nextLong()).setActors(actros[random.nextInt(actros.length)]).createVideoFull();
-        String str = new Boolean(backendDao.addOneVideoFull(full)).toString();
+        String[] category = {"bangla hasir natok " ," eid natok ", "romantic", "abul"};
+        VideoBasic full = new VideoBasic();
+        full.setCategory(category[random.nextInt(category.length)]);
+        full.setActors(actros[random.nextInt(category.length)]);
+        full.setDescription("description"+random.nextLong());
+        full.setCategoryId(random.nextLong());
+        full.setyURL("yers");
+        String str = Boolean.toString(backendDao.addOneVideoBasic(full));
         return ok(str);
     }
 
     public Result createVideo(){
-        final Form<VideoFull> boundForm = form.bindFromRequest();
+        final Form<VideoBasic> boundForm = form.bindFromRequest();
 
         if (boundForm.hasErrors()) {
             play.Logger.ALogger logger = play.Logger.of(getClass());
             logger.error("errors = {}", boundForm.errors());
             return badRequest(views.html.createVideos.render(boundForm));
         } else {
-            VideoFull data = boundForm.get();
-            backendDao.addOneVideoFull(data);
+            VideoBasic data = boundForm.get();
+            backendDao.addOneVideoBasic(data);
             flash("info", "Video added! video id =" + data.id);
             return ok(views.html.createVideos.render(boundForm));
         }
     }
     public Result viewVideoList(){
-       return ok(views.html.listVideos.render(Scala.asScala(backendDao.selectAllVideoFulls())));
+       return ok(views.html.listVideos.render(Scala.asScala(backendDao.selectAllVideoBasics())));
     }
 
     public Result search(Map<String, String> searchMapper){
