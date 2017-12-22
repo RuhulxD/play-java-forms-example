@@ -17,7 +17,7 @@
  *      along with the OMDB API.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.omertron.omdbapi.model;
+package models;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,7 +26,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractJsonMapping {
+import javax.persistence.MappedSuperclass;
+
+public abstract class AbstractJsonMapping{
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractJsonMapping.class);
     private boolean response = Boolean.FALSE;

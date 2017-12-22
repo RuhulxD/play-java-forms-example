@@ -17,7 +17,7 @@
  *      along with the OMDB API.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.omertron.omdbapi.model;
+package models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -25,11 +25,11 @@ import java.util.List;
 public class SearchResults extends AbstractJsonMapping {
 
     @JsonProperty("Search")
-    private List<OmdbVideoBasic> results;
+    private List<VideoBasic> results;
     @JsonProperty("totalResults")
     private int totalResults;
 
-    public List<OmdbVideoBasic> getResults() {
+    public List<VideoBasic> getResults() {
         return results;
     }
 
@@ -37,7 +37,7 @@ public class SearchResults extends AbstractJsonMapping {
         return totalResults;
     }
 
-    public void setResults(List<OmdbVideoBasic> results) {
+    public void setResults(List<VideoBasic> results) {
         if (results == null || results.isEmpty()) {
             // looks like an error or no results
             setResponse(false);

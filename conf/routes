@@ -10,6 +10,11 @@ GET     /widgets                    controllers.WidgetController.listWidgets
 POST    /widgets                    controllers.WidgetController.createWidget
 
 # Videos
+
+GET     /jpalist                    controllers.VideoJPAController.getVideoList
+GET     /list                    controllers.VideoController.getVideos
+GET     /search/:page/:sortBy/:order/:filter                   controllers.VideoController.pagedList(page: Integer,sortBy: String ,order: String , filter:  String )
+
 GET     /videos                    controllers.VideoController.listVideos
 POST    /videos                    controllers.VideoController.createVideos
 

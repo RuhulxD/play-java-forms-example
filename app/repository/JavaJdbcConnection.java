@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009-2017 Lightbend Inc. <https://www.lightbend.com>
  */
-package db;
+package repository;
 
+import play.db.Database;
+
+import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import javax.inject.Inject;
-
-import play.mvc.Controller;
-import play.db.NamedDatabase;
-import play.db.Database;
 
 @javax.inject.Singleton
 class JavaJdbcConnection {
@@ -28,13 +26,20 @@ class JavaJdbcConnection {
         return CompletableFuture.runAsync(() -> {
             // get jdbc connection
             Connection connection = db.getConnection();
+
+            // do whatever you need with the db connection
             try {
-                connection.prepareStatement("insert into test (id, count, name) values (1,2,\'asdf\')").executeUpdate();
+
+                boolean ex = connection.createStatement().execute("select * from video_full");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
+
             return;
         }, executionContext);
     }
+
+
 
 }

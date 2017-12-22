@@ -1,4 +1,4 @@
-@(videos: Seq[VideoData], form: Form[VideoData])
+@(videos: Seq[VideoFull], form: Form[VideoFull])
 
 @main("Videos") {
 
@@ -11,12 +11,16 @@
 
     <table border=1>
         <thead >
-            <tr><th>Name</th><th>Year</th><th>Trailer</th><th>youtubeURL</th><th>tags</th><th>Trailer</th><th>Actors</th>
+        <tr>
+            <th>Title</th><th>Year</th><th>imdbID</th>
+            <th>Type</th><th>Poster</th><th>Country</th>
+        </tr>
         </thead>
         <tbody>
         @for(w <- videos) {
-            <tr><td>@w.getTitle()</td><td>@w.getYear()</td><td>@w.getTrailer()</td><td>@w.getYoutubeUrl()</td><td>@w.getTags()</td>
-            <td>@w.getTrailer()</td><td>@w.getActors()</td>
+            <tr>
+                <td>@w.title</td><td>@w.year</td><td>@w.imdbID</td>
+                <td>@w.tp</td><td>@w.poster</td><td>@w.countries</td>
             </tr>
         }
         </tbody>
@@ -40,17 +44,17 @@
 
         @helper.inputText(form("year"))
 
-        @helper.inputText(form("type"))
+        @helper.inputText(form("yURL"))
 
         @helper.inputText(form("poster"))
 
         @helper.inputText(form("actors"))
 
-        @helper.inputText(form("trailer"))
+        @helper.inputText(form("genre"))
 
-        @helper.inputText(form("youtubeUrl"))
+        @helper.inputText(form("languages"))
 
-        @helper.inputText(form("tags"))
+        @helper.inputText(form("countries"))
 
         <button type="submit">Create video</button>
     }

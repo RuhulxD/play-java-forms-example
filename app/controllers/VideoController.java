@@ -1,34 +1,34 @@
 package controllers;
 
+import models.VideoBasic;
+import models.VideoFull;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
+import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
+import repository.VideoRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
-
+import java.util.concurrent.CompletionStage;
 
 import static play.libs.Scala.asScala;
 
 @Singleton
 public class VideoController extends Controller{
 
-    private final Form<VideoData> form;
-    private final List<VideoData> videos;
+    private final Form<VideoFull> form;
+    private final VideoRepository videoRepository;
+    private HttpExecutionContext httpExecutionContext;
 
     @Inject
-    public VideoController(FormFactory formFactory) {
-        this.form = formFactory.form(VideoData.class);
-        this.videos = com.google.common.collect.Lists.newArrayList(
-                new VideoDataBuilder().setTitle("adfasd")
-                        .setActors("jumman,rajib")
-                        .setGenre("action")
-                .setType("adfdf")
-                .setYear("2011")
-                .setPoster("poster").setTags("movie, natok, drama").setYoutubeUrl("url").setTrailer("url").createVideoData()
-        );
+    public VideoController(FormFactory formFactory, VideoRepository videoRepository, HttpExecutionContext httpExecutionContext) {
+        this.form = formFactory.form(VideoFull.class);
+        this.videoRepository = videoRepository;
+        this.httpExecutionContext = httpExecutionContext;
     }
 
     public Result index() {
@@ -36,20 +36,38 @@ public class VideoController extends Controller{
     }
 
     public Result listVideos() {
+
+        final List<VideoFull> videos = videoRepository.getDefaultList();
         return ok(views.html.listVideos.render(asScala(videos), form));
     }
 
+    public Result pagedList(int page, String sortBy, String order, String filter) {
+        // Run a db operation in another thread (using DatabaseExecutionContext)
+        //return videoRepository.page(page, 10, sortBy, order, filter).thenApplyAsync(list -> {
+            // This is the HTTP rendering thread context
+            //return ok(Json.toJson(videoRepository.pagedList(page, 10, sortBy, order, filter)));
+        //}, httpExecutionContext.current());
+        return getVideos();
+    }
+
+    public Result getVideos(){
+        return ok(Json.toJson(videoRepository.getDefaultList()));
+    }
+
+
+
     public Result createVideos() {
-        final Form<VideoData> boundForm = form.bindFromRequest();
+        final Form<VideoFull> boundForm = form.bindFromRequest();
 
         if (boundForm.hasErrors()) {
             play.Logger.ALogger logger = play.Logger.of(getClass());
             logger.error("errors = {}", boundForm.errors());
+            List<VideoFull> videos = videoRepository.getDefaultList();
             return badRequest(views.html.listVideos.render(asScala(videos), boundForm));
         } else {
-            VideoData data = boundForm.get();
-            videos.add(data);
-            flash("info", "Widget added!");
+            VideoFull data = boundForm.get();
+            videoRepository.insert(data);
+            flash("info", "Videos added!");
             return redirect(routes.VideoController.listVideos());
         }
     }
