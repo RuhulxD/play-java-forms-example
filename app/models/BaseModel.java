@@ -1,7 +1,5 @@
 package models;
 
-import javafx.scene.SubScene;
-
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 

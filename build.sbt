@@ -26,5 +26,11 @@ libraryDependencies ++= Seq(
   "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final" // replace by your jpa implementation
 )
 
+// https://mvnrepository.com/artifact/com.google.apis/google-api-services-youtube
+libraryDependencies += "com.google.apis" % "google-api-services-youtube" % "v3-rev156-1.20.0"
+
+// https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client
+libraryDependencies += "com.google.oauth-client" % "google-oauth-client" % "1.23.0"
+
 
 //PlayKeys.externalizeResources := false

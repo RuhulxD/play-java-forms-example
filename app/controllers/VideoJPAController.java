@@ -1,8 +1,9 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import db.BackendDao;
+import database.BackendDao;
 import models.VideoBasic;
+import models.VideoBasicBuilder;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -12,7 +13,8 @@ import play.mvc.Result;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.*;
+import java.util.Map;
+import java.util.Random;
 
 @Singleton
 public class VideoJPAController extends Controller {
@@ -39,7 +41,7 @@ public class VideoJPAController extends Controller {
     public Result addVideo(){
         String[] actros = {"mosharrof " +" korim ", "opi korim", "abul"};
         String[] category = {"bangla hasir natok " ," eid natok ", "romantic", "abul"};
-        VideoBasic full = new VideoBasic();
+        VideoBasic full = new VideoBasicBuilder().createVideoBasic();
         full.setCategory(category[random.nextInt(category.length)]);
         full.setActors(actros[random.nextInt(category.length)]);
         full.setDescription("description"+random.nextLong());

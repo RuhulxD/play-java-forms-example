@@ -1,4 +1,4 @@
-package db;
+package database;
 
 import models.VideoBasic;
 import play.db.jpa.JPAApi;

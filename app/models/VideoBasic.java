@@ -20,14 +20,9 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.ser.Serializers;
 import play.data.validation.Constraints;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.validation.Constraint;
 import java.io.Serializable;
 
 @Entity
@@ -92,22 +87,43 @@ public class VideoBasic extends BaseModel implements Serializable {
     @JsonProperty("Region")
     public String region;
 
+    @JsonProperty("Episode")
+    public Integer episode;
+
+    @JsonProperty("Season")
+    public Integer season;
+
+    @JsonProperty("Name")
+    public String name;
+
+    @JsonProperty("PublishedAT")
+    public String publishedAt;
+
     public VideoBasic() {
     }
 
-    public VideoBasic(@Constraints.Required Long categoryId, @Constraints.Required String title, @Constraints.Required Long publishedTime, @Constraints.Required String channelId, @Constraints.Required String description, @Constraints.Required String channelId1, @Constraints.Required String year, String imdbID, @Constraints.Required String yURL, String type, String category, String poster) {
+
+    public VideoBasic(@Constraints.Required Long categoryId, @Constraints.Required String title, @Constraints.Required Long publishedTime, @Constraints.Required String channelId, @Constraints.Required String description, @Constraints.Required String actors, @Constraints.Required String tags, @Constraints.Required String genre, @Constraints.Required String year, String imdbID, @Constraints.Required String yURL, String type, String category, String poster, String region, Integer episode, Integer season, String name, String publishedAt) {
         this.categoryId = categoryId;
         this.title = title;
         this.publishedTime = publishedTime;
         this.channelId = channelId;
         this.description = description;
-        this.channelId = channelId1;
+        this.actors = actors;
+        this.tags = tags;
+        this.genre = genre;
         this.year = year;
         this.imdbID = imdbID;
         this.yURL = yURL;
         this.type = type;
         this.category = category;
         this.poster = poster;
+        this.region = region;
+        this.episode = episode;
+        this.season = season;
+        this.name = name;
+        this.publishedAt = publishedAt;
+
     }
 
     public Long getCategoryId() {
@@ -230,22 +246,26 @@ public class VideoBasic extends BaseModel implements Serializable {
         this.region = region;
     }
 
-    @Override
-    public String toString() {
+    @java.lang.Override
+    public java.lang.String toString() {
         return "VideoBasic{" +
                 "categoryId=" + categoryId +
                 ", title='" + title + '\'' +
                 ", publishedTime=" + publishedTime +
                 ", channelId='" + channelId + '\'' +
                 ", description='" + description + '\'' +
-                ", channelId='" + channelId + '\'' +
+                ", actors='" + actors + '\'' +
+                ", tags='" + tags + '\'' +
+                ", genre='" + genre + '\'' +
                 ", year='" + year + '\'' +
                 ", imdbID='" + imdbID + '\'' +
                 ", yURL='" + yURL + '\'' +
                 ", type='" + type + '\'' +
                 ", category='" + category + '\'' +
                 ", poster='" + poster + '\'' +
-                ", id=" + id +
+                ", region='" + region + '\'' +
+                ", episode='" + episode + '\'' +
+                ", season='" + season + '\'' +
                 '}';
     }
 }
