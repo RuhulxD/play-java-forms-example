@@ -1,11 +1,13 @@
 package youtube;
 
-public enum  Parser {
-    TITLE,
-    EPISODE,
-    SEASON,
-    ,
-    TITLE,
-    TITLE
-}
+public interface Parser {
+    public int getEpisode(String str) throws Exception;
 
+    public String getName(String str) throws Exception;
+
+    public int getSeason(String str) throws Exception;
+
+    public String getActors(String str) throws Exception;
+    public String getTitle(String str) throws Exception;
+
+}

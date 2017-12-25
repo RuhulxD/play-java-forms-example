@@ -6,12 +6,17 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.youtube.YouTube;
+import com.typesafe.config.ConfigFactory;
+import org.hibernate.boot.jaxb.SourceType;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,4 +79,23 @@ public class Auth {
         // Authorize.
         return new AuthorizationCodeInstalledApp(flow, localReceiver).authorize("user");
     }
+
+
+
+    private static class Holder {
+        static String key = ConfigFactory.load().getString("youtube.apikey");
+        public static YouTube instance = new YouTube.Builder(Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, new HttpRequestInitializer() {
+            public void initialize(HttpRequest request) throws IOException {
+            }
+        }).setApplicationName("ageless-aleph-170615").build();
+    }
+
+    public static YouTube getYoutube(){
+        return Holder.instance;
+    }
+    public static String getYoutubeAPIKey(){
+        System.out.println("API key = "+ Holder.key);
+        return Holder.key;
+    }
+
 }

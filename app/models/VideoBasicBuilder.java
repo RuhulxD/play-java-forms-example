@@ -15,7 +15,7 @@ public class VideoBasicBuilder {
     private String imdbID;
     private @Constraints.Required String yURL;
     private String type;
-    private String category;
+    private PlayList category;
     private String poster;
     private String region;
     private Integer episode;
@@ -83,7 +83,7 @@ public class VideoBasicBuilder {
         return this;
     }
 
-    public VideoBasicBuilder setCategory(String category) {
+    public VideoBasicBuilder setPlayList(PlayList category) {
         this.category = category;
         return this;
     }

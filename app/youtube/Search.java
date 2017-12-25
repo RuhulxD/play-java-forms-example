@@ -46,7 +46,7 @@ public class Search {
      * Define a global variable that identifies the name of a file that
      * contains the developer's API key.
      */
-    private static final String PROPERTIES_FILENAME = "youtube.properties";
+    private static final String PROPERTIES_FILENAME = "application.config";
 
     private static final long NUMBER_OF_VIDEOS_RETURNED = 25;
 
@@ -64,16 +64,18 @@ public class Search {
      */
     public static void main(String[] args) {
         // Read the developer key from the properties file.
-        Properties properties = new Properties();
-        try {
-            InputStream in = Search.class.getResourceAsStream("/" + PROPERTIES_FILENAME);
-            properties.load(in);
-
-        } catch (IOException e) {
-            System.err.println("There was an error reading " + PROPERTIES_FILENAME + ": " + e.getCause()
-                    + " : " + e.getMessage());
-            System.exit(1);
-        }
+//        Properties properties = new Properties();
+//        try {
+//            InputStream in = Search.class.getResourceAsStream("conf/" + PROPERTIES_FILENAME);
+//            properties.load(in);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            System.err.println("There was an error reading " + PROPERTIES_FILENAME + ": " + e.getCause()
+//                    + " : " + e.getMessage());
+//            e.printStackTrace();
+//            System.exit(1);
+//        }
 
         try {
             // This object is used to make YouTube Data API requests. The last
@@ -94,7 +96,7 @@ public class Search {
             // Set your developer key from the {{ Google Cloud Console }} for
             // non-authenticated requests. See:
             // {{ https://cloud.google.com/console }}
-            String apiKey = properties.getProperty("youtube.apikey");
+            String apiKey = "AIzaSyAs1mTpb47kZRL1eTNvOdGyDtmnlXnToV8";//properties.getProperty("youtube.apikey");
             search.setKey(apiKey);
             search.setQ(queryTerm);
 

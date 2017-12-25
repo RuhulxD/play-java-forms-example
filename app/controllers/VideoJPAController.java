@@ -42,7 +42,7 @@ public class VideoJPAController extends Controller {
         String[] actros = {"mosharrof " +" korim ", "opi korim", "abul"};
         String[] category = {"bangla hasir natok " ," eid natok ", "romantic", "abul"};
         VideoBasic full = new VideoBasicBuilder().createVideoBasic();
-        full.setCategory(category[random.nextInt(category.length)]);
+        full.setType(category[random.nextInt(category.length)]);
         full.setActors(actros[random.nextInt(category.length)]);
         full.setDescription("description"+random.nextLong());
         full.setCategoryId(random.nextLong());
@@ -61,7 +61,7 @@ public class VideoJPAController extends Controller {
         } else {
             VideoBasic data = boundForm.get();
             backendDao.addOneVideoBasic(data);
-            flash("info", "Video added! video id =" + data.id);
+            flash("info", "Video added! video id =" + data.getyURL());
             return ok(views.html.createVideos.render(boundForm));
         }
     }

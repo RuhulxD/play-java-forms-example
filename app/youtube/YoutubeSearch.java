@@ -1,54 +1,148 @@
 package youtube;
 
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
-import com.typesafe.config.ConfigFactory;
 import models.VideoBasic;
 import utility.Utils;
+import views.html.listVideos;
 
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 @Singleton
 public class YoutubeSearch {
 
     private YouTube youtube;
-    private final String YOUTUBE_API;
     private final YouTube.Search.List search;
     private final long NUMBER_OF_VIDEOS_RETURNED =40;
 
     public YoutubeSearch() throws IOException {
-        this.YOUTUBE_API = ConfigFactory.load().getString("youtube.apikey");
-        youtube = new YouTube.Builder(Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, new HttpRequestInitializer() {
-            public void initialize(HttpRequest request) throws IOException {
-            }
-        }).setApplicationName("ageless-aleph-170615").build();
+        this.youtube = Auth.getYoutube();
         search = youtube.search().list("id,snippet");
-        search.setKey(YOUTUBE_API);
+        search.setKey(Auth.getYoutubeAPIKey());
         search.setType("video");
-        search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
+        //search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
         search.setMaxResults(NUMBER_OF_VIDEOS_RETURNED);
     }
 
-    public SearchListResponse execute(String query, String channelId, String pageToken) throws IOException {
+    private SearchListResponse execute(String query, String channelId, String pageToken) throws IOException {
         search.setChannelId(channelId).setQ(query).setPageToken(pageToken);
-        return search.execute();
+        SearchListResponse response = execute();
+        search.setChannelId(null).setQ(null).setPageToken(null);
+        return response;
     }
 
-    public List<VideoBasic> searchInYoutube(String query, String channelId, String pageToken) throws IOException {
-        SearchListResponse result = execute(query, channelId, pageToken);
-        List<SearchResult> searchResultList = result.getItems();
+    public List<VideoBasic> searchByQuery(String query, String channgelId,  int totalVideos) throws IOException {
         List<VideoBasic> list = new ArrayList<>();
-        if (searchResultList != null) {
-            for(SearchResult rs: searchResultList){
-                list.add(Utils.converToVideoBasic(rs));
+        int x=0;
+        String nextPageToken="";
+        while(x < totalVideos){
+
+            int limit = totalVideos-x;
+            if(limit<=0) break;
+            search.setMaxResults((long) limit);
+            SearchListResponse response = execute(query, channgelId, nextPageToken);
+            List<VideoBasic> lists = getList(response);
+            x+=list.size();
+            list.addAll(lists);
+
+            nextPageToken = search.getPageToken();
+            if(nextPageToken ==null){
+                break;
+            }
+            if(list.size()<1){
+                break;
             }
         }
         return list;
+    }
+    public List<VideoBasic> createPlayList(String start, int totalEpisode, String endQuery, String channgelId) throws IOException {
+        HashSet<String> set = new HashSet<>();
+        List<VideoBasic> list = new ArrayList<>();
+        int x = 1;
+        String nextPageToken=null;
+        while(x < totalEpisode){
+            search.setMaxResults(1L);
+            String query = start+" "+ x + " "+endQuery;
+            SearchListResponse response = execute(query, channgelId, nextPageToken);
+            List<VideoBasic> lists = getList(response);
+
+            Utils.print(lists);
+            if(!lists.isEmpty()){
+                VideoBasic basic = lists.get(0);
+                basic.setEpisode(x);
+                if(!set.contains(basic.getyURL())){
+                    set.add(basic.getyURL());
+                    list.add(basic);
+                }else{
+                    System.err.println("################################");
+                    System.err.println("############Duplicate found for "+ query+" ###################");
+                }
+            }
+            x++;
+        }
+        return list;
+    }
+
+    public SearchListResponse execute() throws IOException {
+        return search.execute();
+    }
+
+    public List<VideoBasic> searchInRelatedVideos(String videoId, int totalVideos) throws IOException {
+        List<VideoBasic> list = new ArrayList<>();
+        search.setRelatedToVideoId(videoId);
+        int x=0;
+        String nextPageToken="";
+        while(x < totalVideos){
+            int limit = totalVideos-x;
+            if(limit<=0) break;
+            search.setPageToken(nextPageToken);
+            search.setMaxResults(Math.min(limit, NUMBER_OF_VIDEOS_RETURNED));
+            SearchListResponse response = execute();
+            List<VideoBasic> lists = getList(response);
+            x+=list.size();
+            list.addAll(lists);
+
+            nextPageToken = search.getPageToken();
+            if(nextPageToken ==null){
+                break;
+            }
+            if(list.size()<1){
+                break;
+            }
+        }
+        return list;
+    }
+
+
+
+
+    public List<VideoBasic> getList(SearchListResponse response){
+        List<SearchResult> searchResultList = response.getItems();
+        List<VideoBasic> list = new ArrayList<>();
+        if (searchResultList != null) {
+            for(SearchResult rs: searchResultList){
+                list.add(Utils.converTo(rs));
+            }
+        }
+        return list;
+    }
+    public static void main(String args[]){
+        try {
+            YoutubeSearch search = new YoutubeSearch();
+            List<VideoBasic> basics = search.createPlayList("Bangla Comedy/Funny Natok | Dramaserial - 420 ft. Mosharraf Karim, Tisha - Part", 35, "", "UC6-5LioFeO6MXxv9QPKhnlA");
+            // /search.searchByQuery("420 Channel i | Mostofa Sarwar Farooki", "UC9nuJbEL-AMJLLqc2-ej8xQ", 5);
+
+            Utils.print(basics);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return;
     }
 }

@@ -78,7 +78,7 @@ public class BackendDao {
                 flag = false;
                 query +=" and ";
             }
-            query += key +" like %"+map.get(key)+" % ";
+            query += key +" like %"+map.get(key)+"% ";
         }
         return search(query);
     }
@@ -91,47 +91,3 @@ public class BackendDao {
 
 
 }
-
-/*
-CREATE TABLE `VideoFull` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `year` varchar(255) DEFAULT NULL,
-  `imdb_id` varchar(255) DEFAULT NULL,
-  `y_url` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `poster` varchar(255) DEFAULT NULL,
-  `rated` varchar(255) DEFAULT NULL,
-  `released` varchar(255) DEFAULT NULL,
-  `runtime` varchar(255) DEFAULT NULL,
-  `genre` varchar(255) DEFAULT NULL,
-  `director` varchar(255) DEFAULT NULL,
-  `writer` varchar(255) DEFAULT NULL,
-  `actors` varchar(255) DEFAULT NULL,
-  `plot` varchar(255) DEFAULT NULL,
-  `imdb_rating` varchar(255) DEFAULT NULL,
-  `imdb_votes` varchar(255) DEFAULT NULL,
-  `tomato_meter` varchar(255) DEFAULT NULL,
-  `tomato_image` varchar(255) DEFAULT NULL,
-  `tomato_rating` varchar(255) DEFAULT NULL,
-  `tomato_reviews` varchar(255) DEFAULT NULL,
-  `tomato_fresh` varchar(255) DEFAULT NULL,
-  `tomato_rotten` varchar(255) DEFAULT NULL,
-  `tomato_consensus` varchar(255) DEFAULT NULL,
-  `tomato_user_meter` varchar(255) DEFAULT NULL,
-  `tomato_user_rating` varchar(255) DEFAULT NULL,
-  `tomato_user_reviews` varchar(255) DEFAULT NULL,
-  `tomato_url` varchar(255) DEFAULT NULL,
-  `tomato_dvd` varchar(255) DEFAULT NULL,
-  `tomato_box_office` varchar(255) DEFAULT NULL,
-  `tomato_production` varchar(255) DEFAULT NULL,
-  `tomato_website` varchar(255) DEFAULT NULL,
-  `languages` varchar(255) DEFAULT NULL,
-  `countries` varchar(255) DEFAULT NULL,
-  `awards` varchar(255) DEFAULT NULL,
-  `metascore` int(11) NOT NULL,
-  `season` int(11) DEFAULT NULL,
-  `episode` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB
- */

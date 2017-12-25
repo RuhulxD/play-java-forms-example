@@ -23,10 +23,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import play.data.validation.Constraints;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Entity
-public class VideoBasic extends BaseModel implements Serializable {
+public class VideoBasic implements Serializable {
+
+
+    @Id
+    @Constraints.Required
+    @JsonProperty("youtubeURL")
+    public String yURL;
+
+
+    @JsonProperty("Category")
+    @ManyToOne
+    public PlayList category;
 
     @Constraints.Required
     @JsonProperty("catId")
@@ -70,16 +84,11 @@ public class VideoBasic extends BaseModel implements Serializable {
     @JsonProperty("imdbID")
     public String imdbID;
 
-    @Constraints.Required
-    @JsonProperty("youtubeURL")
-    public String yURL;
 
 
-    @JsonProperty("Type")
+    @JsonProperty("ParserType")
     public String type;
 
-    @JsonProperty("Category")
-    public String category;
 
     @JsonProperty("Poster")
     public String poster;
@@ -103,7 +112,7 @@ public class VideoBasic extends BaseModel implements Serializable {
     }
 
 
-    public VideoBasic(@Constraints.Required Long categoryId, @Constraints.Required String title, @Constraints.Required Long publishedTime, @Constraints.Required String channelId, @Constraints.Required String description, @Constraints.Required String actors, @Constraints.Required String tags, @Constraints.Required String genre, @Constraints.Required String year, String imdbID, @Constraints.Required String yURL, String type, String category, String poster, String region, Integer episode, Integer season, String name, String publishedAt) {
+    public VideoBasic(@Constraints.Required Long categoryId, @Constraints.Required String title, @Constraints.Required Long publishedTime, @Constraints.Required String channelId, @Constraints.Required String description, @Constraints.Required String actors, @Constraints.Required String tags, @Constraints.Required String genre, @Constraints.Required String year, String imdbID, @Constraints.Required String yURL, String type, PlayList category, String poster, String region, Integer episode, Integer season, String name, String publishedAt) {
         this.categoryId = categoryId;
         this.title = title;
         this.publishedTime = publishedTime;
@@ -190,11 +199,11 @@ public class VideoBasic extends BaseModel implements Serializable {
         this.type = type;
     }
 
-    public String getCategory() {
+    public PlayList getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(PlayList category) {
         this.category = category;
     }
 
@@ -244,6 +253,38 @@ public class VideoBasic extends BaseModel implements Serializable {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public Integer getEpisode() {
+        return episode;
+    }
+
+    public void setEpisode(Integer episode) {
+        this.episode = episode;
+    }
+
+    public Integer getSeason() {
+        return season;
+    }
+
+    public void setSeason(Integer season) {
+        this.season = season;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
     }
 
     @java.lang.Override

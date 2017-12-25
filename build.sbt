@@ -32,5 +32,14 @@ libraryDependencies += "com.google.apis" % "google-api-services-youtube" % "v3-r
 // https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client
 libraryDependencies += "com.google.oauth-client" % "google-oauth-client" % "1.23.0"
 
+// https://mvnrepository.com/artifact/com.google.api-client/google-api-client-extensions
+libraryDependencies += "com.google.api-client" % "google-api-client-extensions" % "1.6.0-beta"
+
+// https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-java6
+libraryDependencies += "com.google.oauth-client" % "google-oauth-client-java6" % "1.23.0"
+
+// https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty
+libraryDependencies += "com.google.oauth-client" % "google-oauth-client-jetty" % "1.23.0"
+
 
 //PlayKeys.externalizeResources := false

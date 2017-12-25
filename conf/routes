@@ -28,3 +28,8 @@ GET     /list                    controllers.VideoJPAController.viewVideoList
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+
+
+GET /createPlayList/:id                    controllers.PlayListController.createPlayList(id:String)
+GET /getPlayList/:id                       controllers.PlayListController.getPlayList(id:String)
