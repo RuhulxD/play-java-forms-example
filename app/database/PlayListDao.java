@@ -3,12 +3,14 @@ package database;
 import models.PlayList;
 import models.VideoBasic;
 import play.db.jpa.JPAApi;
+import utility.Utils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Singleton
@@ -40,6 +42,24 @@ public class PlayListDao {
 //        }
         em.close();
         return playList;
+
+    }
+
+    public List<String> getPlayLista(){
+        EntityManager em = getEntityManager();
+        Query query = em.createNativeQuery("select * from VideoBasic as b left join PlayList_VideoBasic as pb on pb.videos_yURL=b.yurl" +
+                " where pb.PlayList_id='PLDQTrGfhmhLiTobhWiRzwh7fr_4jt-iXg' order by b.episode asc limit 10,10", VideoBasic.class);
+
+        System.err.println("###############################################################");
+        List list = query.getResultList();
+//        for(Object obj: list){
+//            List<String> a= Arrays.asList(obj);
+//            for(Object item: a){
+//                System.out.println("item:"+item);
+//            }
+//        }
+        Utils.print(list);
+        return  Collections.emptyList();
 
     }
 

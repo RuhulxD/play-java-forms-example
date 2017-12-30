@@ -7,12 +7,17 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "playlist")
 public class PlayList {
 
     @Id
     @Constraints.Required
-    @JsonProperty("Name")
+    @JsonProperty("Id")
     String id;
+
+    @Constraints.Required
+    @JsonProperty("Title")
+    String title;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonProperty("Videos")
@@ -21,9 +26,10 @@ public class PlayList {
     public PlayList() {
     }
 
-    public PlayList(@Constraints.Required String id, Set<VideoBasic> videos) {
+    public PlayList(@Constraints.Required String id, @Constraints.Required String title, Set<VideoBasic> videos) {
         this.id = id;
         this.videos = videos;
+        this.title = title;
     }
 
     public String getId() {

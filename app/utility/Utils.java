@@ -8,6 +8,9 @@ import models.VideoBasicBuilder;
 import play.libs.Json;
 import youtube.YoutubeParser;
 
+import javax.persistence.Query;
+import java.awt.*;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -64,5 +67,20 @@ public class Utils {
     }
     public static String getString(Object... obj){
         return Json.prettyPrint(Json.toJson(obj));
+    }
+
+    public List getResult(Query q, Integer start, Integer limit, String... parameter){
+        if(parameter != null || parameter.length >0){
+            for(int i=1; i<=parameter.length; i++){
+                q.setParameter(i, parameter[i]);
+            }
+        }
+        if(start != null){
+            q.setFirstResult(start);
+        }
+        if(limit != null){
+            q.setMaxResults(limit);
+        }
+        return q.getResultList();
     }
 }

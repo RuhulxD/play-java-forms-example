@@ -30,7 +30,7 @@ public class PlayListController extends Controller {
     public Result createPlayList(String playlistId){
         try {
             Set<VideoBasic> videList = new HashSet<>(youtube.fetchAllListItems(playlistId, null));
-            PlayList playList = new PlayList(playlistId, videList);
+            PlayList playList = new PlayList(playlistId, "asdfasdf", videList);
             boolean b = dao.addToPlayList(playList);
             return response(b);
 
@@ -41,12 +41,18 @@ public class PlayListController extends Controller {
     }
 
     public Result getPlayList(String id){
+        dao.getPlayLista();
         PlayList playList = dao.getPlayList(id, 0, 10);
         if(playList==null){
             return response(false);
         }
         return ok(Utils.getString(playList));
     }
+
+    public Result getPlayLista(){
+        return ok(Utils.getString(dao.getPlayLista()));
+    }
+
 
     public Result response(boolean response){
         return ok(""+response);

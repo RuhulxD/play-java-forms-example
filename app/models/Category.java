@@ -5,31 +5,43 @@ import play.data.validation.Constraints;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-public class Category implements Serializable{
+@Table(name = "category")
+public class Category implements Serializable {
 
     @Id
     @Constraints.Required
     @JsonProperty("Name")
-    String categoryName;
+    String name;
 
     @Id
     @Constraints.Required
-    @JsonProperty("value")
-    String CategoryValue;
+    @JsonProperty("Value")
+    String value;
 
     @Constraints.Required
     @JsonProperty("Type")
     Integer type;
 
+    @JsonProperty("Description")
+    String description;
+
     public Category() {
     }
 
     public Category(String name, String value, int type) {
-        this.categoryName = name;
-        this.CategoryValue = value;
+        this.name = name;
+        this.value = value;
         this.type = type;
+    }
+
+    public Category(String name, String value, int type, String description) {
+        this.name = name;
+        this.value = value;
+        this.type = type;
+        this.description = description;
     }
 }
