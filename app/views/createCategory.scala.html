@@ -1,10 +1,12 @@
-@(form: Form[Category])
+@(form: Form[Category])(cats:Seq[Category])(appid:String)
 
 @main("Categories") {
 
     <h1>Categories</h1>
 
-    @* Flash shows updates to a page *@
+    @listCategory(cats)
+
+    @* Flash shows updates to a page createApplication*@
     @flash.asScala.map{ case (name, value) =>
     <div class="@name">@value</div>
     }
@@ -20,14 +22,36 @@
         }
     }
 
-    @helper.form(routes.VideoJPAController.createVideo) {
+    @helper.form(routes.AdminPanel.createCategory(appid)) {
         @helper.CSRF.formField
 
-        @helper.inputText(form("name"))
+    <!--<select name="name">-->
+        <!--@for(w <- cats) {-->
+            <!--<option value="@w.value">@w.value</option>-->
+        <!--}-->
+    <!--</select>-->
+
+<dl class="error" id="name_field">
+
+    <dt><label for="name">name</label></dt>
+
+    <dd>
+        <input type="text" id="name" name="name" value="@appid" size="30">
+    </dd>
+
+    <dd class="error">This field is required</dd>
+
+
+    <dd class="info">Required</dd>
+
+</dl>
+        @* helper.inputText(form("name"), 'value->"@appid",'size -> 30) *@
         @helper.inputText(form("value"))
         @helper.inputText(form("type"))
+        @helper.inputText(form("description"))
 
         <button type="submit">Create Category</button>
     }
+
 
 }

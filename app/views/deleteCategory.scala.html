@@ -1,0 +1,27 @@
+@(cats:Seq[Category])(appid:String)
+
+@main("Categories") {
+
+    <h1>Categories</h1>
+
+    @listCategory(cats)
+
+    @* Flash shows updates to a page createApplication*@
+    @flash.asScala.map{ case (name, value) =>
+    <div class="@name">@value</div>
+    }
+
+
+    <hr/>
+
+    @helper.form(routes.AdminPanel.deleteCategory(appid)) {
+        @helper.CSRF.formField
+            <label> Cateogry </label>
+            <select name="name">
+                @for(w <- cats) {
+                <option value="@w.value">@w.value</option>
+                }
+            </select>
+            <button type="submit">Delete Category</button>
+    }
+}

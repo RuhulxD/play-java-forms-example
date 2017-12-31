@@ -59,6 +59,7 @@ public class Utils {
         builder.setPoster(item.getSnippet().getThumbnails().getDefault().getUrl());
         builder.setDescription(item.getSnippet().getDescription());
         builder.setyURL(item.getSnippet().getResourceId().getVideoId());
+        builder.setChannelId(item.getSnippet().getChannelId());
         builder.setTitle(title);
         return builder.createVideoBasic();
     }
@@ -69,7 +70,7 @@ public class Utils {
         return Json.prettyPrint(Json.toJson(obj));
     }
 
-    public List getResult(Query q, Integer start, Integer limit, String... parameter){
+    public List getResult(Query q, Integer start, Integer limit, Object... parameter){
         if(parameter != null || parameter.length >0){
             for(int i=1; i<=parameter.length; i++){
                 q.setParameter(i, parameter[i]);

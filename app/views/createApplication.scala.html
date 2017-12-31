@@ -1,6 +1,8 @@
-@(form: Form[Application])(applications: Seq[Application])
+@(form: Form[Application])(apps: Seq[Application])
 
 @main("Applications") {
+
+    @listApplication(apps)
 
     <h1>Applications</h1>
 
@@ -20,14 +22,14 @@
         }
     }
 
-    @helper.form(routes.VideoJPAController.createVideo) {
+    @helper.form(routes.AdminPanel.createApplication) {
         @helper.CSRF.formField
 
         @helper.inputText(form("name"))
-        @helper.inputText(form("appkey"))
+        @helper.inputText(form("apiKey"))
         @helper.inputText(form("description"))
 
-        <button type="submit">Create Category</button>
+        <button type="submit">Create Applications</button>
     }
 
 }

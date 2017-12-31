@@ -6,6 +6,26 @@
 GET     /                           controllers.VideoJPAController.index
 
 
+
+
+
+# Applications
+
+GET     /apps                      controllers.AdminPanel.createApplication
+POST    /apps                      controllers.AdminPanel.createApplication
+
+# Category
+
+GET     /cats/:appid                      controllers.AdminPanel.createCategory(appid:String)
+POST    /cats/:appid                      controllers.AdminPanel.createCategory(appid:String)
+GET    /cats/delete/:appid                      controllers.AdminPanel.deleteCategory(appid:String)
+
+
+
+
+
+
+
 # Videos
 
 

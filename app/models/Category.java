@@ -15,19 +15,19 @@ public class Category implements Serializable {
     @Id
     @Constraints.Required
     @JsonProperty("Name")
-    String name;
+    public String name;
 
     @Id
     @Constraints.Required
     @JsonProperty("Value")
-    String value;
+    public String value;
 
     @Constraints.Required
     @JsonProperty("Type")
-    Integer type;
+    public Integer type;
 
     @JsonProperty("Description")
-    String description;
+    public String description;
 
     public Category() {
     }

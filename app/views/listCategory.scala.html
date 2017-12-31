@@ -1,0 +1,25 @@
+@(cats: Seq[Category])
+
+<h1>Categories</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Description</th>
+        <th>Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for(w <- cats) {
+    <tr>
+        <td>@w.name</td>
+        <td>@w.value</td>
+        <td>@w.description</td>
+        <td>@{w.`type`}</td>
+    </tr>
+    }
+    </tbody>
+</table>
+
+<hr/>
