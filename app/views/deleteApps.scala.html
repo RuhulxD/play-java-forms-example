@@ -1,0 +1,26 @@
+@(apps:Seq[Application])
+@main("") {
+
+    <h1>Applications</h1>
+
+    @listApplication(apps)
+
+    @* Flash shows updates to a page createApplication*@
+    @flash.asScala.map{ case (name, value) =>
+    <div class="@name">@value</div>
+    }
+
+
+    <hr/>
+
+    @helper.form(routes.AdminPanel.deleteApplication) {
+        @helper.CSRF.formField
+            <label> Cateogry </label>
+            <select name="name">
+                @for(w <- apps) {
+                <option value="@w.name">@w.name</option>
+                }
+            </select>
+            <button type="submit">Delete Application</button>
+    }
+}

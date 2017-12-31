@@ -12,6 +12,7 @@ GET     /                           controllers.VideoJPAController.index
 # Applications
 
 GET     /apps                      controllers.AdminPanel.createApplication
+GET     /apps/delete               controllers.AdminPanel.deleteApplication
 POST    /apps                      controllers.AdminPanel.createApplication
 
 # Category

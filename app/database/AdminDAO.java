@@ -14,6 +14,7 @@ import views.html.defaultpages.badRequest;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,6 +66,16 @@ public class AdminDAO {
         List<Application> apps = em.createQuery("select a from Application a", Application.class).getResultList();
         em.close();
         return apps;
+    }
+    public boolean deleteApplication( String id) {
+        EntityManager em = getEm();
+        em.getTransaction().begin();
+        Query query = em.createQuery("delete from Application where name = ?1 ");
+        query.setParameter(1, id);
+        int i = query.executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+        return i>0;
     }
 
     public List<Category> getCategories(String id, int start, int limit) {

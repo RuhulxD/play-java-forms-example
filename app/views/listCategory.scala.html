@@ -1,5 +1,5 @@
 @(cats: Seq[Category])
-
+@import utility.Types
 <h1>Categories</h1>
 <table>
     <thead>
@@ -8,6 +8,7 @@
         <th>Value</th>
         <th>Description</th>
         <th>Type</th>
+        <th>Id</th>
     </tr>
     </thead>
     <tbody>
@@ -16,7 +17,12 @@
         <td>@w.name</td>
         <td>@w.value</td>
         <td>@w.description</td>
-        <td>@{w.`type`}</td>
+        @for(a <- Types.values()){
+            @if( a.value() == {w.`type`}){
+                <td>@a.name()</td>
+            }
+        }
+        <td>@{w.generatedId}</td>
     </tr>
     }
     </tbody>

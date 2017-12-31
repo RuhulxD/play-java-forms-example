@@ -1,5 +1,5 @@
 @(form: Form[Category])(cats:Seq[Category])(appid:String)
-
+@import utility.Types
 @main("Categories") {
 
     <h1>Categories</h1>
@@ -45,9 +45,17 @@
     <dd class="info">Required</dd>
 
 </dl>
+
         @* helper.inputText(form("name"), 'value->"@appid",'size -> 30) *@
         @helper.inputText(form("value"))
-        @helper.inputText(form("type"))
+        @* helper.inputText(form("type")) *@
+
+        <select name="type">
+            @for(a <- Types.values()){
+                <option value="@a.value()">@a.name()</option>
+            }
+        </select>
+
         @helper.inputText(form("description"))
 
         <button type="submit">Create Category</button>

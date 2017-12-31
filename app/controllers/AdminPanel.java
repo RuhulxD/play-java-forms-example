@@ -53,6 +53,17 @@ public class AdminPanel extends Controller {
             return ok(views.html.createApplication.render(boundForm, Scala.asScala(adminDAO.getApplications())));
         }
     }
+    public Result deleteApplication() {
+        DynamicForm requestData = factory.form().bindFromRequest();
+        String cat = requestData.get("name");
+        boolean status =adminDAO.deleteApplication(cat);
+        if(status){
+            flash("info", "App deleted! Category details =" + cat);
+        }else{
+            flash("Error", "Apps deleted failed! Category details =" + cat);
+        }
+        return ok(views.html.deleteApps.render(Scala.asScala(adminDAO.getApplications())));
+    }
 
     public Result getApplications() {
         return ok(views.html.listApplication.render(Scala.asScala(adminDAO.getApplications())));

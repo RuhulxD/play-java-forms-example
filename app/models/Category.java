@@ -3,6 +3,7 @@ package models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import play.data.validation.Constraints;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -22,6 +23,10 @@ public class Category implements Serializable {
     @JsonProperty("Value")
     public String value;
 
+    @Column(unique=true)
+    public String generatedId;
+
+
     @Constraints.Required
     @JsonProperty("Type")
     public Integer type;
@@ -30,18 +35,18 @@ public class Category implements Serializable {
     public String description;
 
     public Category() {
+        super();
+        this.generatedId = String.valueOf(System.currentTimeMillis());
     }
 
-    public Category(String name, String value, int type) {
-        this.name = name;
-        this.value = value;
-        this.type = type;
-    }
-
-    public Category(String name, String value, int type, String description) {
-        this.name = name;
-        this.value = value;
-        this.type = type;
-        this.description = description;
+    @Override
+    public String toString() {
+        return "Category{" +
+                "name='" + name + '\'' +
+                ", value='" + value + '\'' +
+                ", generatedId='" + generatedId + '\'' +
+                ", type=" + type +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
