@@ -31,23 +31,11 @@
         <!--}-->
     <!--</select>-->
 
-<dl class="error" id="name_field">
+        @helper.inputText(form("id"))
 
-    <dt><label for="name">name</label></dt>
-
-    <dd>
-        <input type="text" id="name" name="name" value="@appid" size="30">
-    </dd>
-
-    <dd class="error">This field is required</dd>
-
-
-    <dd class="info">Required</dd>
-
-</dl>
-
-        @* helper.inputText(form("name"), 'value->"@appid",'size -> 30) *@
+        @helper.inputText(form("name"))
         @helper.inputText(form("value"))
+        @helper.inputText(form("title"))
         @* helper.inputText(form("type")) *@
 
         <select name="type">

@@ -10,7 +10,6 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Singleton
@@ -59,7 +58,7 @@ public class PlayListDao {
 //            }
 //        }
         Utils.print(list);
-        return  Collections.emptyList();
+        return  list;
 
     }
 

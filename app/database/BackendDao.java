@@ -88,6 +88,4 @@ public class BackendDao {
         em.close();
         return result;
     }
-
-
 }

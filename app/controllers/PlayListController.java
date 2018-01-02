@@ -12,6 +12,7 @@ import youtube.YoutubePlayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +30,7 @@ public class PlayListController extends Controller {
 
     public Result createPlayList(String playlistId){
         try {
-            Set<VideoBasic> videList = new HashSet<>(youtube.fetchAllListItems(playlistId, null));
+            List<VideoBasic> videList = new ArrayList<>(youtube.fetchAllListItems(playlistId, null));
             PlayList playList = new PlayList(playlistId, "asdfasdf", videList);
             boolean b = dao.addToPlayList(playList);
             return response(b);

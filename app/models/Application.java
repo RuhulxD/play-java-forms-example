@@ -9,9 +9,8 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="application")
-public class Application implements Serializable {
+public class Application extends BaseModel implements Serializable {
 
-    @Id
     @Constraints.Required
     public String name;
 

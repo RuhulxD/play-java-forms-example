@@ -3,29 +3,30 @@ package models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import play.data.validation.Constraints;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "category")
-public class Category implements Serializable {
+@Table(name = "category",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"name", "value"})
+        }
+)
+public class Category extends BaseModel implements Serializable {
 
     @Id
     @Constraints.Required
     @JsonProperty("Name")
     public String name;
 
-    @Id
+
     @Constraints.Required
     @JsonProperty("Value")
     public String value;
 
-    @Column(unique=true)
-    public String generatedId;
-
+    @Constraints.Required
+    @JsonProperty("Title")
+    public String title;
 
     @Constraints.Required
     @JsonProperty("Type")
@@ -34,19 +35,15 @@ public class Category implements Serializable {
     @JsonProperty("Description")
     public String description;
 
-    public Category() {
-        super();
-        this.generatedId = String.valueOf(System.currentTimeMillis());
-    }
-
     @Override
     public String toString() {
         return "Category{" +
                 "name='" + name + '\'' +
                 ", value='" + value + '\'' +
-                ", generatedId='" + generatedId + '\'' +
+                ", title='" + title + '\'' +
                 ", type=" + type +
                 ", description='" + description + '\'' +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

@@ -1,116 +1,87 @@
 package database;
 
-import javafx.scene.shape.TriangleMesh;
 import models.Application;
 import models.Category;
 import models.PlayList;
 import models.VideoBasic;
-import play.data.Form;
-import play.data.FormFactory;
 import play.db.jpa.JPAApi;
-import scala.App;
-import views.html.defaultpages.badRequest;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class AdminDAO {
-
-    private final JPAApi jpaApi;
+    private final BasicDAO<Application> appsDao;
+    private final BasicDAO<Category> catsDao;
+    private final BasicDAO<PlayList> playDao;
+    private final BasicDAO<VideoBasic> videoDao;
 
     @Inject
     public AdminDAO(JPAApi jpaApi) {
-        this.jpaApi = jpaApi;
+        appsDao = new BasicDAO<>(Application.class, "Application", "id", jpaApi);
+        catsDao = new BasicDAO<>(Category.class, "Category", "value", jpaApi);
+        playDao = new BasicDAO<>(PlayList.class, "PlayList", "id", jpaApi);
+        videoDao = new BasicDAO<>(VideoBasic.class, "VideoBasic", "id", jpaApi);
     }
 
-    public boolean addApplication(Application app) throws Exception {
-        System.out.println("#########Creating apps..");
-        try {
-            EntityManager em = getEm();
-            em.getTransaction().begin();
-            em.persist(app);
-            em.getTransaction().commit();
-            em.close();
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw ex;
-        }
-        return true;
-    }
-
-    public boolean addPlayList(PlayList playList) {
-        return true;
-    }
-
-    public boolean addCategory(Category category) {
-        System.out.println("#########Creating apps..");
-        try {
-            EntityManager em = getEm();
-            em.getTransaction().begin();
-            em.persist(category);
-            em.getTransaction().commit();
-            em.close();
-        }catch (Exception ex){
-            ex.printStackTrace();
-            throw ex;
-        }
-        return true;
+    public Application addApplication(Application app) throws Exception {
+        return appsDao.add(app);
     }
 
     public List<Application> getApplications() {
-        EntityManager em = getEm();
-        List<Application> apps = em.createQuery("select a from Application a", Application.class).getResultList();
-        em.close();
-        return apps;
-    }
-    public boolean deleteApplication( String id) {
-        EntityManager em = getEm();
-        em.getTransaction().begin();
-        Query query = em.createQuery("delete from Application where name = ?1 ");
-        query.setParameter(1, id);
-        int i = query.executeUpdate();
-        em.getTransaction().commit();
-        em.close();
-        return i>0;
+        return appsDao.getAll();
     }
 
+    public Application getApplication(String id) {
+        return appsDao.getOne(id);
+    }
+
+    public boolean deleteApplication(String id) {
+        return appsDao.delete(id);
+    }
+
+    //playlist
+    public PlayList addPlayList(PlayList playList) {
+        return playDao.add(playList);
+    }
+    public List<PlayList> getPlayList(String id, int start, int limit) {
+        return playDao.getList(id, start, limit);
+    }
+    public boolean deletePlayList(String id) {
+        return playDao.delete(id);
+    }
+
+    //category
+    public Category addCategory(Category category) {
+        System.out.println(category.toString());
+        return catsDao.add(category);
+    }
     public List<Category> getCategories(String id, int start, int limit) {
-        EntityManager em = getEm();
-        Query q = em.createQuery("select c from Category c where name=?1", Category.class);
-        q.setParameter(1, id);
-        q.setMaxResults(limit);
-        q.setFirstResult(start);
-        List<Category> resultList = q.getResultList();
-
-        em.close();
-        return resultList;
+        return catsDao.getList("select a from Category a where name =?1", Arrays.asList(id), start, limit);
     }
 
     public List<Category> getCategories(String id) {
         return getCategories(id, 0, 100);
     }
-    public boolean deleteCategory(String id, String value) {
-        EntityManager em = getEm();
-        em.getTransaction().begin();
-        Query q = em.createQuery("delete from Category where name=?1 and value=?2 ");
-        q.setParameter(1, id);
-        q.setParameter(2, value);
-        int x = q.executeUpdate();
-        em.getTransaction().commit();
-        em.close();
-        return x>0;
+
+    public boolean deleteCategory(String id) {
+        return catsDao.delete(id);
+    }
+    public boolean deleteCategory(String id, String name){
+        return catsDao.delete(Arrays.asList("name"), Arrays.asList(id, name));
     }
 
-
-    public List<PlayList> getPlayLists() {
-        return Collections.emptyList();
+    //videoBasic
+    public VideoBasic addVideo(VideoBasic videoBasic){
+        return videoDao.add(videoBasic);
+    }
+    public List<VideoBasic> getVideos(String playlistid, int start, int limit){
+        String query = "select * from VideoBasic as b left join PlayList_VideoBasic as pb on pb.videos_yURL=b.yurl" +
+                "where pb.PlayList_id=?1 order by b.episode asc ";
+        return videoDao.getList(query, Arrays.asList(playlistid), start, limit);
+    }
+    public VideoBasic getDetais(String id){
+        return videoDao.getOne(id);
     }
 
-    public EntityManager getEm() {
-        return jpaApi.em("default");
-    }
 }

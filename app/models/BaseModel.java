@@ -6,9 +6,9 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class BaseModel {
     @Id
-    public Long id;
+    public String id;
 
     public  BaseModel(){
-        id = System.currentTimeMillis();
+        id = Long.toString(System.currentTimeMillis());
     }
 }

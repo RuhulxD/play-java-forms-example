@@ -20,20 +20,20 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import play.data.validation.Constraints;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "videos")
-public class VideoBasic implements Serializable {
+@Table(name = "videos",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"yURL"})
+        }
+)
+public class VideoBasic extends BaseModel implements Serializable {
 
-
-    @Id
     @Constraints.Required
     @JsonProperty("youtubeURL")
     public String yURL;
@@ -84,7 +84,6 @@ public class VideoBasic implements Serializable {
 
     @JsonProperty("imdbID")
     public String imdbID;
-
 
 
     @JsonProperty("ParserType")
@@ -288,10 +287,12 @@ public class VideoBasic implements Serializable {
         this.publishedAt = publishedAt;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "VideoBasic{" +
-                "categoryId=" + categoryId +
+                "yURL='" + yURL + '\'' +
+                ", category=" + category +
+                ", categoryId=" + categoryId +
                 ", title='" + title + '\'' +
                 ", publishedTime=" + publishedTime +
                 ", channelId='" + channelId + '\'' +
@@ -301,13 +302,14 @@ public class VideoBasic implements Serializable {
                 ", genre='" + genre + '\'' +
                 ", year='" + year + '\'' +
                 ", imdbID='" + imdbID + '\'' +
-                ", yURL='" + yURL + '\'' +
                 ", type='" + type + '\'' +
-                ", category='" + category + '\'' +
                 ", poster='" + poster + '\'' +
                 ", region='" + region + '\'' +
-                ", episode='" + episode + '\'' +
-                ", season='" + season + '\'' +
+                ", episode=" + episode +
+                ", season=" + season +
+                ", name='" + name + '\'' +
+                ", publishedAt='" + publishedAt + '\'' +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

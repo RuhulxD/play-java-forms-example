@@ -4,16 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "playlist")
-public class PlayList {
+public class PlayList extends BaseModel {
 
-    @Id
-    @Constraints.Required
-    @JsonProperty("Id")
-    String id;
 
     @Constraints.Required
     @JsonProperty("Title")
@@ -21,16 +17,19 @@ public class PlayList {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonProperty("Videos")
-    Set<VideoBasic> videos;
+    List<VideoBasic> videos;
 
-    public PlayList() {
+    public PlayList(){
+        super();
     }
 
-    public PlayList(@Constraints.Required String id, @Constraints.Required String title, Set<VideoBasic> videos) {
-        this.id = id;
-        this.videos = videos;
+    public PlayList(String playlistId, String title, List<VideoBasic> videList) {
+        super();
+        this.id = playlistId;
         this.title = title;
+        this.videos = videList;
     }
+
 
     public String getId() {
         return id;
@@ -40,11 +39,11 @@ public class PlayList {
         this.id = id;
     }
 
-    public Set<VideoBasic> getVideos() {
+    public List<VideoBasic> getVideos() {
         return videos;
     }
 
-    public void setVideos(Set<VideoBasic> videos) {
+    public void setVideos(List<VideoBasic> videos) {
         this.videos = videos;
     }
 
