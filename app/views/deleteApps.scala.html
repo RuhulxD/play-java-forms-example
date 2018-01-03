@@ -18,7 +18,7 @@
             <label> Cateogry </label>
             <select name="name">
                 @for(w <- apps) {
-                <option value="@w.name">@w.name</option>
+                <option value="@w.id">@w.name</option>
                 }
             </select>
             <button type="submit">Delete Application</button>

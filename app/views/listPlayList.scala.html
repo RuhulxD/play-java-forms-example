@@ -1,0 +1,21 @@
+@(apps: Seq[PlayList])
+
+<h1>PlayList</h1>
+<table border=1>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>Title</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for(w <- apps) {
+    <tr>
+        <td>@w.id</td>
+        <td>@w.title</td>
+    </tr>
+    }
+    </tbody>
+</table>
+
+<hr/>

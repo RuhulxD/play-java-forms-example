@@ -13,11 +13,11 @@ public class PlayList extends BaseModel {
 
     @Constraints.Required
     @JsonProperty("Title")
-    String title;
+    public String title;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonProperty("Videos")
-    List<VideoBasic> videos;
+    public List<VideoBasic> videos;
 
     public PlayList(){
         super();
