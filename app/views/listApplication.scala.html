@@ -1,25 +1,8 @@
 @(apps: Seq[Application])
 
 <h1>Applications</h1>
-<table border=1>
-    <thead>
-    <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>key</th>
-        <th>desc</th>
-    </tr>
-    </thead>
-    <tbody>
-    @for(w <- apps) {
-    <tr>
-        <td>@w.id</td>
-        <td>@w.name</td>
-        <td>@w.apiKey</td>
-        <td>@w.description</td>
-    </tr>
-    }
-    </tbody>
-</table>
+    <h1> HKJDHFJKADHF </h1>
+    @import utility._;
+    @Html(Utils.buildTable(apps))
 
 <hr/>

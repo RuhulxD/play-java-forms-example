@@ -5,11 +5,13 @@ import com.google.api.services.youtube.model.Playlist;
 import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.PlaylistItemListResponse;
 import com.google.api.services.youtube.model.PlaylistListResponse;
+import models.PlayList;
 import models.VideoBasic;
 import utility.Utils;
 
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -44,26 +46,21 @@ public class YoutubeChannelPlayList {
 
 
 
-    public String fetchAllListItems(String channelId, YoutubeParser parser) throws IOException {
+    public List<PlayList> fetchAllPlayList(String channelId, YoutubeParser parser) throws IOException {
 
         String nextToken = "";
-        List<Playlist> basics = new ArrayList<>();
-        Set<String>ids= new HashSet<>();
-
-        // Call the API one or more times to retrieve all items in the
-        // list. As long as the API response returns a nextPageToken,
-        // there are still more items to retrieve.
+        List<PlayList> basics = new ArrayList<>();
         playlist.setChannelId(channelId);
         int episodeCounter=1;
         do {
             playlist.setPageToken(nextToken);
             PlaylistListResponse playlistItemResult = execute();
             for(Playlist item: playlistItemResult.getItems()){
-                basics.add(item);
+                basics.add(Utils.converTo(item));
             }
             nextToken = playlistItemResult.getNextPageToken();
         } while (nextToken != null);
-        return Utils.getString(basics);
+        return basics;
     }
 
     public static void main(String args[]){
@@ -75,7 +72,7 @@ public class YoutubeChannelPlayList {
             builder.setEpisode("[Ee]pi.*?(\\d+)");
             builder.setName("^Bangla Natok (\\w+) l");
 
-            String  basics = playList.fetchAllListItems("UCFy4dUqTg9grMVt9ZhTfisA", builder.createYoutubeParser());
+            List  basics = playList.fetchAllPlayList("UCFy4dUqTg9grMVt9ZhTfisA", builder.createYoutubeParser());
             Utils.print(basics);
 
         } catch (IOException e) {

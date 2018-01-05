@@ -2,6 +2,7 @@ package models;
 
 import play.data.validation.Constraints;
 
+import javax.jdo.annotations.Unique;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Table(name="application")
 public class Application extends BaseModel implements Serializable {
 
+    @Unique
     @Constraints.Required
     public String name;
 

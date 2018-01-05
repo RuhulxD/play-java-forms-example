@@ -1,10 +1,8 @@
 package youtube;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.*;
 import models.VideoBasic;
-import play.libs.Json;
 import utility.Utils;
 
 import javax.inject.Singleton;
@@ -15,14 +13,14 @@ import java.util.List;
 import java.util.Set;
 
 @Singleton
-public class YoutubePlayList {
+public class YoutubePlayListItems {
 
     private YouTube youtube;
     private final String YOUTUBE_API;
     private final YouTube.PlaylistItems.List playlist;
     private final long NUMBER_OF_VIDEOS_RETURNED =40;
 
-    public YoutubePlayList() throws IOException {
+    public YoutubePlayListItems() throws IOException {
         this.YOUTUBE_API = Auth.getYoutubeAPIKey();
         youtube = Auth.getYoutube();
         playlist = youtube.playlistItems().list("id,snippet");
@@ -77,7 +75,7 @@ public class YoutubePlayList {
 
     public static void main(String args[]){
         try {
-            YoutubePlayList playList = new YoutubePlayList();
+            YoutubePlayListItems playList = new YoutubePlayListItems();
             YoutubeParserBuilder builder = new YoutubeParserBuilder();
             //Bangla Natok Houseful l Mithila, Mosharof Karim, Hasan Masud l Episode 02 I Drama & Telefilm
             builder.setActors("^.*?([Mm]ithila.*?ud)");

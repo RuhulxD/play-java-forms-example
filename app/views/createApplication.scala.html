@@ -1,19 +1,17 @@
-@(form: Form[Application])(apps: Seq[Application])
+@import play.api.mvc.Call
+@(form: Form[Application])(apps: Seq[Application])(call : Call)
 
 @main("Applications") {
 
-    @listApplication(apps)
+    @drawTable(apps)
 
     @formError(form)
 
-    @helper.form(routes.AdminPanel.createApplication) {
+    @helper.form(call) {
         @helper.CSRF.formField
-
-        @helper.inputText(form("name"))
-        @helper.inputText(form("apiKey"))
-        @helper.inputText(form("description"))
-
+        @form.data().asScala.map{ case (name, value) =>
+            @helper.inputText(form(name))
+        }
         <button type="submit">Create Applications</button>
     }
-
 }

@@ -1,0 +1,17 @@
+@(title:String)(form: Form[_])(apps: Seq[_])
+
+@main(title) {
+
+<h1>LIST: @title </h1>
+    @drawTable(apps)
+
+    @formError(form)
+
+    @helper.form(routes.AdminPanel.createApplication) {
+        @helper.CSRF.formField
+        @form.data().asScala.map{ case (name, value) =>
+            @helper.inputText(form(name))
+        }
+        <button type="submit">Create @title</button>
+    }
+}

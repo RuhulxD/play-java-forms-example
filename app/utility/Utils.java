@@ -1,15 +1,17 @@
 package utility;
 
+import com.google.api.services.youtube.model.Playlist;
 import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.PlaylistItemSnippet;
 import com.google.api.services.youtube.model.SearchResult;
-import models.VideoBasic;
-import models.VideoBasicBuilder;
+import models.*;
 import play.libs.Json;
 import youtube.YoutubeParser;
 
 import javax.persistence.Query;
 import java.awt.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -83,5 +85,81 @@ public class Utils {
             q.setMaxResults(limit);
         }
         return q.getResultList();
+    }
+
+    public static String buildTable(List list){
+        if(list == null || list.isEmpty()){
+            return "<h1>No Data </h1>";
+        }
+        StringBuilder builder = new StringBuilder().append("<table>").append(buildHeader(list.get(0)));
+        for(Object obj: list){
+            builder.append(buildRow(obj));
+        }
+        return builder.append("</table>").toString();
+    }
+
+
+    public static String buildHeader( Object obj){
+        StringBuilder builder= new StringBuilder().append("<thead>").append("<tr>");
+        for(String str: getAllFields(obj)){
+            builder.append("<th>").append(str).append("</th>");
+        }
+        builder.append("</tr></thead>");
+        return builder.toString();
+    }
+    public static String buildRow( Object obj){
+        StringBuilder builder= new StringBuilder().append("<tbody><tr>");
+        for(String str: getValues(obj)){
+            builder.append("<td>").append(str).append("</td>");
+        }
+        builder.append("</tr></tbody>");
+        return builder.toString();
+    }
+
+    public static List<String> getValues(Object obj){
+        List<String>strings = new ArrayList<>();
+        for (Class<?> c = obj.getClass(); c != null; c = c.getSuperclass())
+        {
+            Field[] fields = c.getDeclaredFields();
+            for (Field classField : fields) {
+                try {
+                    Object o = classField.get(obj);
+                    strings.add(o == null ? "null" : o.toString());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return strings;
+    }
+    public static  List<String> getAllFields(Object obj){
+        List<String>strings = new ArrayList<>();
+        for (Class<?> c = obj.getClass(); c != null; c = c.getSuperclass())
+        {
+            Field[] fields = c.getDeclaredFields();
+            for (Field classField : fields)
+            {
+                strings.add(classField.getName().toString());
+            }
+        }
+//        for(Field field: obj.getClass().getDeclaredFields()){
+//            strings.add(field.getName());
+//        }
+        return strings;
+    }
+    public static void main(String... args){
+        Category category = new Category();
+        category.name ="sadf";
+        category.id="23213";
+
+        System.out.println(buildHeader(category));
+        System.out.println(buildRow(category));
+    }
+
+    public static PlayList converTo(Playlist item) {
+        if(item == null){
+            return null;
+        }
+        return new PlayListBuilder().setId(item.getId()).setThumb(item.getSnippet().getThumbnails().getHigh().getUrl()).setTitle(item.getSnippet().getTitle()).createPlayList();
     }
 }

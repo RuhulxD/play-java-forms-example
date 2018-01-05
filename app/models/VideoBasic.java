@@ -32,8 +32,9 @@ import java.io.Serializable;
                 @UniqueConstraint(columnNames = {"yURL"})
         }
 )
-public class VideoBasic extends BaseModel implements Serializable {
+public class VideoBasic implements Serializable {
 
+    @Id
     @Constraints.Required
     @JsonProperty("youtubeURL")
     public String yURL;
@@ -105,14 +106,13 @@ public class VideoBasic extends BaseModel implements Serializable {
     @JsonProperty("Name")
     public String name;
 
-    @JsonProperty("PublishedAT")
-    public String publishedAt;
 
     public VideoBasic() {
     }
 
-
-    public VideoBasic(@Constraints.Required Long categoryId, @Constraints.Required String title, @Constraints.Required Long publishedTime, @Constraints.Required String channelId, @Constraints.Required String description, @Constraints.Required String actors, @Constraints.Required String tags, @Constraints.Required String genre, @Constraints.Required String year, String imdbID, @Constraints.Required String yURL, String type, PlayList category, String poster, String region, Integer episode, Integer season, String name, String publishedAt) {
+    public VideoBasic(@Constraints.Required String yURL, PlayList category, @Constraints.Required Long categoryId, @Constraints.Required String title, @Constraints.Required Long publishedTime, @Constraints.Required String channelId, @Constraints.Required String description, @Constraints.Required String actors, @Constraints.Required String tags, @Constraints.Required String genre, @Constraints.Required String year, String imdbID, String type, String poster, String region, Integer episode, Integer season, String name) {
+        this.yURL = yURL;
+        this.category = category;
         this.categoryId = categoryId;
         this.title = title;
         this.publishedTime = publishedTime;
@@ -123,16 +123,12 @@ public class VideoBasic extends BaseModel implements Serializable {
         this.genre = genre;
         this.year = year;
         this.imdbID = imdbID;
-        this.yURL = yURL;
         this.type = type;
-        this.category = category;
         this.poster = poster;
         this.region = region;
         this.episode = episode;
         this.season = season;
         this.name = name;
-        this.publishedAt = publishedAt;
-
     }
 
     public Long getCategoryId() {
@@ -279,37 +275,4 @@ public class VideoBasic extends BaseModel implements Serializable {
         this.name = name;
     }
 
-    public String getPublishedAt() {
-        return publishedAt;
-    }
-
-    public void setPublishedAt(String publishedAt) {
-        this.publishedAt = publishedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "VideoBasic{" +
-                "yURL='" + yURL + '\'' +
-                ", category=" + category +
-                ", categoryId=" + categoryId +
-                ", title='" + title + '\'' +
-                ", publishedTime=" + publishedTime +
-                ", channelId='" + channelId + '\'' +
-                ", description='" + description + '\'' +
-                ", actors='" + actors + '\'' +
-                ", tags='" + tags + '\'' +
-                ", genre='" + genre + '\'' +
-                ", year='" + year + '\'' +
-                ", imdbID='" + imdbID + '\'' +
-                ", type='" + type + '\'' +
-                ", poster='" + poster + '\'' +
-                ", region='" + region + '\'' +
-                ", episode=" + episode +
-                ", season=" + season +
-                ", name='" + name + '\'' +
-                ", publishedAt='" + publishedAt + '\'' +
-                ", id='" + id + '\'' +
-                '}';
-    }
 }

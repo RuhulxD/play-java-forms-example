@@ -3,7 +3,7 @@
 
     <h1>Applications</h1>
 
-    @listApplication(apps)
+    @drawTable(apps)
 
     @* Flash shows updates to a page createApplication*@
     @flash.asScala.map{ case (name, value) =>

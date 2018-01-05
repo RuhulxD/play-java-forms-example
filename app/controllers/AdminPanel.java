@@ -36,12 +36,22 @@ public class AdminPanel extends Controller {
     }
 
     public Result createApplication() {
-        final Form<Application> boundForm = appForm.bindFromRequest();
+        Form<Application> boundForm = appForm.bindFromRequest();
 
         if (boundForm.hasErrors()) {
             play.Logger.ALogger logger = play.Logger.of(getClass());
             logger.error("errors = {}", boundForm.errors());
-            return badRequest(views.html.createApplication.render(boundForm, Scala.asScala(adminDAO.getApplications())));
+            Application application = new Application();
+            application.apiKey="";
+            application.name="";
+            application.description="";
+            application.id="";
+
+            boundForm.data().put("apiKey", "");
+            boundForm.data().put("name", "");
+            boundForm.data().put("description", "");
+            boundForm.data().put("id", "");
+            return badRequest(views.html.createApplication.render(boundForm, Scala.asScala(adminDAO.getApplications()), routes.AdminPanel.createApplication()));
         } else {
             Application data = boundForm.get();
             try {
@@ -50,7 +60,7 @@ public class AdminPanel extends Controller {
             }catch (Exception ex){
                 flash("info", "Failed! App details =" + ex.getMessage());
             }
-            return ok(views.html.createApplication.render(boundForm, Scala.asScala(adminDAO.getApplications())));
+            return ok(views.html.createApplication.render(boundForm, Scala.asScala(adminDAO.getApplications()), routes.AdminPanel.createApplication()));
         }
     }
     public Result deleteApplication() {

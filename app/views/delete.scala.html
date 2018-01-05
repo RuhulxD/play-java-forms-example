@@ -1,0 +1,12 @@
+@import play.api.mvc.Call
+@(title:String, call: Call, values: Seq[_])
+@helper.form(call) {
+        @helper.CSRF.formField
+        <select name="name">
+            @for(w <- values) {
+            <option value="@w">@w</option>
+            }
+        </select>
+        <button type="submit">Delete @title</button>
+}
+

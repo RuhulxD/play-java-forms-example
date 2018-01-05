@@ -4,7 +4,7 @@
 
     <h1>Categories</h1>
 
-    @listCategory(cats)
+    @drawTable(cats)
 
     @* Flash shows updates to a page createApplication*@
     @flash.asScala.map{ case (name, value) =>

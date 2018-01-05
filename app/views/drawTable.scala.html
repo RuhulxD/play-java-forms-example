@@ -1,0 +1,6 @@
+@(apps: Seq[_])
+
+<h1>List: </h1>
+    @import utility._;
+    @Html(Utils.buildTable(apps))
+<hr/>

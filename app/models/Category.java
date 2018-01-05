@@ -46,4 +46,20 @@ public class Category extends BaseModel implements Serializable {
                 ", id='" + id + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj != null && obj instanceof Category){
+            Category cat = (Category) obj;
+            return cat.name.equals(name) && cat.id.equals(id);
+        }
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        if(name!=null && id != null)
+            return (int) (id.hashCode() + name.hashCode());
+        return super.hashCode();
+    }
 }

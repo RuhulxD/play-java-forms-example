@@ -2,28 +2,26 @@ package controllers;
 
 import database.PlayListDao;
 import models.PlayList;
+import models.PlayListBuilder;
 import models.VideoBasic;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utility.Utils;
-import youtube.YoutubePlayList;
+import youtube.YoutubePlayListItems;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Singleton
 public class PlayListController extends Controller {
     private final PlayListDao dao;
-    private final YoutubePlayList youtube;
+    private final YoutubePlayListItems youtube;
 
     @Inject
-    public PlayListController(PlayListDao dao, YoutubePlayList youtube){
+    public PlayListController(PlayListDao dao, YoutubePlayListItems youtube){
         this.dao = dao;
         this.youtube = youtube;
     }
@@ -31,7 +29,7 @@ public class PlayListController extends Controller {
     public Result createPlayList(String playlistId){
         try {
             List<VideoBasic> videList = new ArrayList<>(youtube.fetchAllListItems(playlistId, null));
-            PlayList playList = new PlayList(playlistId, "asdfasdf", videList);
+            PlayList playList = new PlayListBuilder().setId(playlistId).setTitle("asdfasdf").setVideos(videList).createPlayList();
             boolean b = dao.addToPlayList(playList);
             return response(b);
 

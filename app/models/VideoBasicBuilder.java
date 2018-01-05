@@ -3,6 +3,8 @@ package models;
 import play.data.validation.Constraints;
 
 public class VideoBasicBuilder {
+    private @Constraints.Required String yURL;
+    private PlayList category;
     private @Constraints.Required Long categoryId;
     private @Constraints.Required String title;
     private @Constraints.Required Long publishedTime;
@@ -13,15 +15,22 @@ public class VideoBasicBuilder {
     private @Constraints.Required String genre;
     private @Constraints.Required String year;
     private String imdbID;
-    private @Constraints.Required String yURL;
     private String type;
-    private PlayList category;
     private String poster;
     private String region;
     private Integer episode;
     private Integer season;
     private String name;
-    private String publishedAt;
+
+    public VideoBasicBuilder setyURL(@Constraints.Required String yURL) {
+        this.yURL = yURL;
+        return this;
+    }
+
+    public VideoBasicBuilder setCategory(PlayList category) {
+        this.category = category;
+        return this;
+    }
 
     public VideoBasicBuilder setCategoryId(@Constraints.Required Long categoryId) {
         this.categoryId = categoryId;
@@ -73,18 +82,8 @@ public class VideoBasicBuilder {
         return this;
     }
 
-    public VideoBasicBuilder setyURL(@Constraints.Required String yURL) {
-        this.yURL = yURL;
-        return this;
-    }
-
     public VideoBasicBuilder setType(String type) {
         this.type = type;
-        return this;
-    }
-
-    public VideoBasicBuilder setPlayList(PlayList category) {
-        this.category = category;
         return this;
     }
 
@@ -113,12 +112,7 @@ public class VideoBasicBuilder {
         return this;
     }
 
-    public VideoBasicBuilder setPublishedAt(String publishedAt) {
-        this.publishedAt = publishedAt;
-        return this;
-    }
-
     public VideoBasic createVideoBasic() {
-        return new VideoBasic(categoryId, title, publishedTime, channelId, description, actors, tags, genre, year, imdbID, yURL, type, category, poster, region, episode, season, name, publishedAt);
+        return new VideoBasic(yURL, category, categoryId, title, publishedTime, channelId, description, actors, tags, genre, year, imdbID, type, poster, region, episode, season, name);
     }
 }
