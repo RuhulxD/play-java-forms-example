@@ -5,9 +5,7 @@ import database.BackendDao;
 import database.CategoryDao;
 import database.PlayListDao;
 import javafx.util.Pair;
-import models.BasicListDTO;
-import models.Category;
-import models.PlayList;
+import models.*;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -47,4 +45,11 @@ public class AppController  extends Controller{
         return ok(Json.toJson(dto));
     }
 
+    public Result getPlayList(String playlistid, int start, int limit){
+        TyppedDTO<PlayList>dto = new TyppedDTO<>();
+        dto.setData(playListDao.getPlayList(playlistid, start, limit));
+        dto.setResponse(true);
+        dto.setStatus(true);
+        return ok(Json.toJson(dto));
+    }
 }

@@ -3,6 +3,7 @@ package database;
 import models.PlayList;
 import models.VideoBasic;
 import play.db.jpa.JPAApi;
+import play.db.jpa.Transactional;
 import scala.collection.mutable.ReusableBuilder;
 import utility.Utils;
 
@@ -30,9 +31,11 @@ public class PlayListDao {
 
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createQuery("select a from playlist a", PlayList.class);
+            Query q = em.createQuery("select a from PlayList a where a.id = ?1", PlayList.class);
+            q.setParameter(1, id);
             return (PlayList) q.getSingleResult();
         } catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         } finally {
             em.close();
@@ -42,11 +45,13 @@ public class PlayListDao {
     public PlayList getPlayList(String id, int start, int limit) {
         EntityManager em = getEntityManager();
         try {
+            System.err.println("playlist id=="+id);
             PlayList playList = getPlayListDetails(id);
             if (playList == null) {
                 return null;
             }
-            Query query = em.createNativeQuery("select * from videos as b left join PlayList_VideoBasic as pb on pb.videos_yURL=b.yurl" +
+            Utils.print(playList);
+            Query query = em.createNativeQuery("select * from videos as b left join playlist_videos as pb on pb.videos_yURL=b.yurl" +
                     " where pb.PlayList_id=?1 order by b.episode asc limit ?2 , ?3", VideoBasic.class);
             System.err.println("###############################################################");
             query.setParameter(1, id);
@@ -103,6 +108,7 @@ public class PlayListDao {
         return addToPlayList(Arrays.asList(playList));
     }
 
+    @Transactional
     public boolean addToPlayList(List<PlayList> playLists) {
         EntityManager em = getEntityManager();
         try {

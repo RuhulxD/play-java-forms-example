@@ -29,7 +29,7 @@ public class Utils {
         return bd.createVideoBasic();
     }
 
-    public static VideoBasic convertTo(PlaylistItem item, YoutubeParser parser){
+    public static VideoBasic convertTo(PlaylistItem item, YoutubeParser parser) throws  Exception{
         VideoBasicBuilder builder = new VideoBasicBuilder();
         String title = item.getSnippet().getTitle();
         if(parser !=null) {

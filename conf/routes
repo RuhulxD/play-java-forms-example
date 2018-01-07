@@ -6,11 +6,17 @@
 GET     /                           controllers.VideoJPAController.index
 
 
+
+
 # Applications
 
-GET     /apps                      controllers.AdminPanel.createApplication
-GET     /apps/delete               controllers.AdminPanel.deleteApplication
-POST    /apps                      controllers.AdminPanel.createApplication
+
+GET     /apps/get/:appid/:catType/                  controllers.AppController.getCategoriesWithList(appid:String, catType:Int, start:Int=0, limit:Int=10)
+GET     /apps/get/:appid/:catType/:start/:limit     controllers.AppController.getCategoriesWithList(appid:String, catType:Int, start:Int, limit:Int)
+GET     /apps                                       controllers.AdminPanel.createApplication
+GET     /apps/delete                                controllers.AdminPanel.deleteApplication
+POST    /apps                                       controllers.AdminPanel.createApplication
+GET     /apps/get/:appid                            controllers.AppController.getCategories(appid:String)
 
 # Category
 
@@ -20,9 +26,7 @@ GET    /cats/delete/:appid                      controllers.AdminPanel.deleteCat
 
 #playlist
 GET     /playlist/add                   controllers.PlayListController.createPlayListForm
-
-
-
+GET     /playlist/get/:id               controllers.PlayListController.getPlayList(id:String)
 
 
 # Videos

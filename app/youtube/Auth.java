@@ -16,7 +16,6 @@ import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.youtube.YouTube;
 import com.typesafe.config.ConfigFactory;
-import org.hibernate.boot.jaxb.SourceType;
 
 import java.io.File;
 import java.io.IOException;

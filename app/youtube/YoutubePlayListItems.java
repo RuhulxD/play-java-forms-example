@@ -56,7 +56,12 @@ public class YoutubePlayListItems {
             playlist.setPageToken(nextToken);
             PlaylistItemListResponse playlistItemResult = execute();
             for(PlaylistItem item: playlistItemResult.getItems()){
-                VideoBasic basic = Utils.convertTo(item, parser);
+                VideoBasic basic = null;
+                try {
+                    basic = Utils.convertTo(item, parser);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if(basic != null){
                     if(!ids.contains(basic.getyURL())) {
                         basic.setEpisode(episodeCounter++);
@@ -66,6 +71,8 @@ public class YoutubePlayListItems {
                         System.err.println("###########DUPLICATE FOUND##############");
                         System.err.println(basic.getyURL());
                     }
+                }else{
+                    System.err.println("#############null returned for "+ Utils.getString(item));
                 }
             }
             nextToken = playlistItemResult.getNextPageToken();

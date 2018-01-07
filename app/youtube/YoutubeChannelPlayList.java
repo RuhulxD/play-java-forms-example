@@ -51,7 +51,6 @@ public class YoutubeChannelPlayList {
         String nextToken = "";
         List<PlayList> basics = new ArrayList<>();
         playlist.setChannelId(channelId);
-        int episodeCounter=1;
         do {
             playlist.setPageToken(nextToken);
             PlaylistListResponse playlistItemResult = execute();
