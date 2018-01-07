@@ -59,7 +59,11 @@ public class Utils {
 
         builder.setPublishedTime(item.getSnippet().getPublishedAt().getValue());
         builder.setPoster(item.getSnippet().getThumbnails().getDefault().getUrl());
-        builder.setDescription(item.getSnippet().getDescription());
+        String description = item.getSnippet().getDescription();
+        if(description.length()> 128){
+            description = description.substring(0, 128);
+        }
+        builder.setDescription(description);
         builder.setyURL(item.getSnippet().getResourceId().getVideoId());
         builder.setChannelId(item.getSnippet().getChannelId());
         builder.setTitle(title);

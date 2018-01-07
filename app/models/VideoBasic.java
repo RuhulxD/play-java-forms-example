@@ -275,4 +275,15 @@ public class VideoBasic implements Serializable {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "VideoBasic{" +
+                "yURL='" + yURL + '\'' +
+                ", title='" + title + '\'' +
+                ", publishedTime=" + publishedTime +
+                ", poster='" + poster + '\'' +
+                ", region='" + region + '\'' +
+                ", episode=" + episode +
+                '}';
+    }
 }

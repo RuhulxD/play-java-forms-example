@@ -34,6 +34,7 @@ public class PlayList extends BaseModel {
         this.thumb = thumb;
         this.thumb1 = thumb1;
         this.videos = videos;
+        this.id = id;
     }
 
     public String getId() {

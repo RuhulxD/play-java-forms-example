@@ -3,12 +3,14 @@ package database;
 import models.PlayList;
 import models.VideoBasic;
 import play.db.jpa.JPAApi;
+import scala.collection.mutable.ReusableBuilder;
 import utility.Utils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,62 +26,76 @@ public class PlayListDao {
     }
     //getPlaylist
 
-    public PlayList getPlayList(String id, int start, int limit) {
+    public PlayList getPlayListDetails(String id) {
 
         EntityManager em = getEntityManager();
-        PlayList playList = em.find(PlayList.class, id);
-
-//        Query query =
-//        query.setFirstResult(start);
-//        query.setMaxResults(limit);
-//        query.setParameter(1, id);
-//        PlayList playList = null;
-//        try {
-//            playList = (PlayList) query.getSingleResult();
-//        } catch (Exception ex) {
-//
-//        }
-        em.close();
-        return playList;
-
+        try {
+            Query q = em.createQuery("select a from playlist a", PlayList.class);
+            return (PlayList) q.getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        } finally {
+            em.close();
+        }
     }
 
-    public List<String> getPlayLista(){
+    public PlayList getPlayList(String id, int start, int limit) {
         EntityManager em = getEntityManager();
-        Query query = em.createNativeQuery("select * from VideoBasic as b left join PlayList_VideoBasic as pb on pb.videos_yURL=b.yurl" +
-                " where pb.PlayList_id='PLDQTrGfhmhLiTobhWiRzwh7fr_4jt-iXg' order by b.episode asc limit 10,10", VideoBasic.class);
-
-        System.err.println("###############################################################");
-        List list = query.getResultList();
-//        for(Object obj: list){
-//            List<String> a= Arrays.asList(obj);
-//            for(Object item: a){
-//                System.out.println("item:"+item);
-//            }
-//        }
-        Utils.print(list);
-        return  list;
-
+        try {
+            PlayList playList = getPlayListDetails(id);
+            if (playList == null) {
+                return null;
+            }
+            Query query = em.createNativeQuery("select * from videos as b left join PlayList_VideoBasic as pb on pb.videos_yURL=b.yurl" +
+                    " where pb.PlayList_id=?1 order by b.episode asc limit ?2 , ?3", VideoBasic.class);
+            System.err.println("###############################################################");
+            query.setParameter(1, id);
+            query.setParameter(2, start);
+            query.setParameter(3, limit);
+            List<VideoBasic> resultList = query.getResultList();
+            playList.setVideos(resultList);
+            return playList;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return null;
     }
 
     //update/delete
     public boolean deletePlayList(String id) {
         EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        Query query = em.createQuery("delete from PlayList e where e.id=?1 ");
-        query.setParameter(1, id);
-        int i = query.executeUpdate();
-        return i > 0;
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("delete from PlayList e where e.id=?1 ");
+            query.setParameter(1, id);
+            int i = query.executeUpdate();
+            return i > 0;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return false;
     }
 
     public boolean deleteFromPlayList(String id, String yid) {
         EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        Query query = em.createQuery("delete from PlayList e where e.id=?1 and yid=?2");
-        query.setParameter(1, id);
-        query.setParameter(2, yid);
-        int i = query.executeUpdate();
-        return i > 0;
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("delete from PlayList_Video e where e.id=?1 and yid=?2");
+            query.setParameter(1, id);
+            query.setParameter(2, yid);
+            int i = query.executeUpdate();
+            return i > 0;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return false;
     }
 
     // add /create
@@ -89,26 +105,22 @@ public class PlayListDao {
 
     public boolean addToPlayList(List<PlayList> playLists) {
         EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        ;
-        for (PlayList item : playLists) {
-//            EntityManager em1 = getEntityManager();
-//            em1.getTransaction().begin();
-//
-//            for(VideoBasic basic: item.getVideos()){
-//                em1.persist(basic);
-//            }
-//            em1.getTransaction().commit();
-//            em1.close();
-            em.persist(item);
+        try {
+            em.getTransaction().begin();
+            for (PlayList item : playLists) {
+                em.merge(item);
+            }
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
     public EntityManager getEntityManager() {
         return jpaApi.em("default");
     }
-
 }

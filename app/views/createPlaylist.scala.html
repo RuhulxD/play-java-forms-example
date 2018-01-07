@@ -1,19 +1,12 @@
-@(form: Form[PlayList])
+@(title:String, playList: Seq[PlayList])
 
-@main("PlayList") {
-
-    <h1>PlayList</h1>
-
-    @formError(form)
-
-    @helper.form(routes.VideoJPAController.createVideo) {
-        @helper.CSRF.formField
-
-        @helper.inputText(form("name"))
-        @helper.inputText(form("value"))
-        @helper.inputText(form("type"))
-
-        <button type="submit">Create Category</button>
-    }
-
+@main(title) {
+        <h1>Create Playlist from channel</h1>
+        @helper.form(routes.PlayListController.createPlayListForm) {
+            @helper.CSRF.formField
+            <label>ChannelId</label><input type="text" id="channelid" name="channel">
+            <button type="submit">Create Category</button>
+        }
+    <h1>@title</h1>
+    @drawTable(playList)
 }

@@ -6,9 +6,6 @@
 GET     /                           controllers.VideoJPAController.index
 
 
-
-
-
 # Applications
 
 GET     /apps                      controllers.AdminPanel.createApplication
@@ -21,7 +18,8 @@ GET     /cats/:appid                      controllers.AdminPanel.createCategory(
 POST    /cats/:appid                      controllers.AdminPanel.createCategory(appid:String)
 GET    /cats/delete/:appid                      controllers.AdminPanel.deleteCategory(appid:String)
 
-
+#playlist
+GET     /playlist/add                   controllers.PlayListController.createPlayListForm
 
 
 
@@ -51,8 +49,5 @@ GET     /list                    controllers.VideoJPAController.viewVideoList
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 
-GET /geta/                                 controllers.PlayListController.getPlayLista
-
-GET /getPlayLista/                         controllers.PlayListController.getPlayLista
 GET /getPlayList/:id                       controllers.PlayListController.getPlayList(id:String)
 GET /createPlayList/:id                    controllers.PlayListController.createPlayList(id:String)
