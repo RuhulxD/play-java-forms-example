@@ -42,6 +42,7 @@ public class CategoryDao {
         EntityManager em = getEntityManager();
         try {
             List<Category> result = em.createQuery("SELECT e FROM Category e").getResultList();
+            return result;
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

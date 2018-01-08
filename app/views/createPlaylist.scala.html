@@ -1,12 +1,11 @@
-@(title:String, playList: Seq[PlayList])
+@(title:String)(form: Form[_])
 
 @main(title) {
+        @formError(form)
         <h1>Create Playlist from channel</h1>
         @helper.form(routes.PlayListController.createPlayListForm) {
             @helper.CSRF.formField
             <label>ChannelId</label><input type="text" id="channelid" name="channel">
             <button type="submit">Create Category</button>
         }
-    <h1>@title</h1>
-    @drawTable(playList)
 }

@@ -95,7 +95,7 @@ public class Utils {
         if(list == null || list.isEmpty()){
             return "<h1>No Data </h1>";
         }
-        StringBuilder builder = new StringBuilder().append("<table>").append(buildHeader(list.get(0)));
+        StringBuilder builder = new StringBuilder().append("<table border=1>").append(buildHeader(list.get(0)));
         for(Object obj: list){
             builder.append(buildRow(obj));
         }

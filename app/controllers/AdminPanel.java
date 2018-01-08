@@ -1,6 +1,7 @@
 package controllers;
 
 import database.AdminDAO;
+import database.CategoryDao;
 import models.Application;
 import models.Category;
 import models.PlayList;
@@ -19,16 +20,18 @@ public class AdminPanel extends Controller {
     private final Form<Application> appForm;
     private final Form<Category> catForm;
     private final Form<PlayList> playListForm;
+    private final CategoryDao categoryDao;
     private final FormFactory factory;
     private final AdminDAO adminDAO;
 
     @Inject
-    public AdminPanel(AdminDAO adminDAO, FormFactory formFactory) {
+    public AdminPanel(AdminDAO adminDAO, FormFactory formFactory, CategoryDao categoryDao) {
         this.factory = formFactory;
         this.adminDAO = adminDAO;
         this.appForm = formFactory.form(Application.class);
         this.catForm = formFactory.form(Category.class);
         this.playListForm = formFactory.form(PlayList.class);
+        this.categoryDao = categoryDao;
     }
 
     public Result index() {
@@ -116,7 +119,7 @@ public class AdminPanel extends Controller {
         return ok(views.html.deleteCategory.render(Scala.asScala(adminDAO.getCategories(application)), application));
     }
     public Result getCategory() {
-        return ok();
+        return ok(views.html.drawTable.render(Scala.asScala(categoryDao.selectAllCategories())));
     }
 
 
