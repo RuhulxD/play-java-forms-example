@@ -93,6 +93,9 @@ public class AdminPanel extends Controller {
         } else {
             Category data = boundForm.get();
             try {
+                if(data.id==null || data.id.isEmpty()){
+                    data.id = Long.toString(System.currentTimeMillis());
+                }
                 adminDAO.addCategory(data);
                 flash("info", "Categories added! Category details =" + data.toString());
             }catch (Exception ex){

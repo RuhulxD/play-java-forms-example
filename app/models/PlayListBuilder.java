@@ -9,6 +9,7 @@ public class PlayListBuilder {
     private @Constraints.Required String title;
     private String thumb;
     private String thumb1;
+    private int total;
     private List<VideoBasic> videos;
 
     public PlayListBuilder setId(String id) {
@@ -36,7 +37,14 @@ public class PlayListBuilder {
         return this;
     }
 
+    public PlayListBuilder setTotal(int total) {
+        this.total = total;
+        return this;
+    }
+
+
+
     public PlayList createPlayList() {
-        return new PlayList(id, title, thumb, thumb1, videos);
+        return new PlayList(id, title, thumb, thumb1, videos, total);
     }
 }

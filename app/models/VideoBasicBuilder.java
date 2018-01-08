@@ -4,8 +4,6 @@ import play.data.validation.Constraints;
 
 public class VideoBasicBuilder {
     private @Constraints.Required String yURL;
-    private PlayList category;
-    private @Constraints.Required Long categoryId;
     private @Constraints.Required String title;
     private @Constraints.Required Long publishedTime;
     private @Constraints.Required String channelId;
@@ -24,16 +22,6 @@ public class VideoBasicBuilder {
 
     public VideoBasicBuilder setyURL(@Constraints.Required String yURL) {
         this.yURL = yURL;
-        return this;
-    }
-
-    public VideoBasicBuilder setCategory(PlayList category) {
-        this.category = category;
-        return this;
-    }
-
-    public VideoBasicBuilder setCategoryId(@Constraints.Required Long categoryId) {
-        this.categoryId = categoryId;
         return this;
     }
 
@@ -113,6 +101,6 @@ public class VideoBasicBuilder {
     }
 
     public VideoBasic createVideoBasic() {
-        return new VideoBasic(yURL, category, categoryId, title, publishedTime, channelId, description, actors, tags, genre, year, imdbID, type, poster, region, episode, season, name);
+        return new VideoBasic(yURL, title, publishedTime, channelId, description, actors, tags, genre, year, imdbID, type, poster, region, episode, season, name);
     }
 }

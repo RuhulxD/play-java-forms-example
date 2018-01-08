@@ -1,28 +1,22 @@
 package youtube;
 
 import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.YouTube.Playlists.List;
 import com.google.api.services.youtube.model.Playlist;
-import com.google.api.services.youtube.model.PlaylistItem;
-import com.google.api.services.youtube.model.PlaylistItemListResponse;
 import com.google.api.services.youtube.model.PlaylistListResponse;
 import models.PlayList;
-import models.VideoBasic;
 import utility.Utils;
 
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Singleton
 public class YoutubeChannelPlayList {
 
     private YouTube youtube;
     private final String YOUTUBE_API;
-    private final YouTube.Playlists.List playlist;
+    private final List playlist;
     private final long NUMBER_OF_VIDEOS_RETURNED =40;
 
     public YoutubeChannelPlayList() throws IOException {
@@ -46,10 +40,10 @@ public class YoutubeChannelPlayList {
 
 
 
-    public List<PlayList> fetchAllPlayList(String channelId, YoutubeParser parser) throws IOException {
+    public java.util.List<PlayList> fetchAllPlayList(String channelId, YoutubeParser parser) throws IOException {
 
         String nextToken = "";
-        List<PlayList> basics = new ArrayList<>();
+        java.util.List<PlayList> basics = new ArrayList<>();
         playlist.setChannelId(channelId);
         do {
             playlist.setPageToken(nextToken);
@@ -71,7 +65,7 @@ public class YoutubeChannelPlayList {
             builder.setEpisode("[Ee]pi.*?(\\d+)");
             builder.setName("^Bangla Natok (\\w+) l");
 
-            List  basics = playList.fetchAllPlayList("UCFy4dUqTg9grMVt9ZhTfisA", builder.createYoutubeParser());
+            java.util.List basics = playList.fetchAllPlayList("UCFy4dUqTg9grMVt9ZhTfisA", builder.createYoutubeParser());
             Utils.print(basics);
 
         } catch (IOException e) {

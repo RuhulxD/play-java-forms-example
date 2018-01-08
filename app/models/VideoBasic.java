@@ -39,15 +39,6 @@ public class VideoBasic implements Serializable {
     @JsonProperty("youtubeURL")
     public String yURL;
 
-
-    @JsonProperty("Category")
-    @ManyToOne
-    public PlayList category;
-
-    @Constraints.Required
-    @JsonProperty("catId")
-    public Long categoryId;
-
     @Constraints.Required
     @JsonProperty("Title")
     public String title;
@@ -106,14 +97,12 @@ public class VideoBasic implements Serializable {
     @JsonProperty("Name")
     public String name;
 
+    public VideoBasic(){
 
-    public VideoBasic() {
     }
 
-    public VideoBasic(@Constraints.Required String yURL, PlayList category, @Constraints.Required Long categoryId, @Constraints.Required String title, @Constraints.Required Long publishedTime, @Constraints.Required String channelId, @Constraints.Required String description, @Constraints.Required String actors, @Constraints.Required String tags, @Constraints.Required String genre, @Constraints.Required String year, String imdbID, String type, String poster, String region, Integer episode, Integer season, String name) {
+    public VideoBasic(@Constraints.Required String yURL, @Constraints.Required String title, @Constraints.Required Long publishedTime, @Constraints.Required String channelId, @Constraints.Required String description, @Constraints.Required String actors, @Constraints.Required String tags, @Constraints.Required String genre, @Constraints.Required String year, String imdbID, String type, String poster, String region, Integer episode, Integer season, String name) {
         this.yURL = yURL;
-        this.category = category;
-        this.categoryId = categoryId;
         this.title = title;
         this.publishedTime = publishedTime;
         this.channelId = channelId;
@@ -131,12 +120,26 @@ public class VideoBasic implements Serializable {
         this.name = name;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    @Override
+    public String toString() {
+        return "VideoBasic{" +
+                "yURL='" + yURL + '\'' +
+                ", title='" + title + '\'' +
+                ", publishedTime=" + publishedTime +
+                ", actors='" + actors + '\'' +
+                ", year='" + year + '\'' +
+                ", imdbID='" + imdbID + '\'' +
+                ", poster='" + poster + '\'' +
+                ", episode=" + episode +
+                '}';
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public String getyURL() {
+        return yURL;
+    }
+
+    public void setyURL(String yURL) {
+        this.yURL = yURL;
     }
 
     public String getTitle() {
@@ -161,54 +164,6 @@ public class VideoBasic implements Serializable {
 
     public void setChannelId(String channelId) {
         this.channelId = channelId;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getImdbID() {
-        return imdbID;
-    }
-
-    public void setImdbID(String imdbID) {
-        this.imdbID = imdbID;
-    }
-
-    public String getyURL() {
-        return yURL;
-    }
-
-    public void setyURL(String yURL) {
-        this.yURL = yURL;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public PlayList getCategory() {
-        return category;
-    }
-
-    public void setCategory(PlayList category) {
-        this.category = category;
-    }
-
-    public String getPoster() {
-        return poster;
-    }
-
-    public void setPoster(String poster) {
-        this.poster = poster;
     }
 
     public String getDescription() {
@@ -243,6 +198,38 @@ public class VideoBasic implements Serializable {
         this.genre = genre;
     }
 
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getImdbID() {
+        return imdbID;
+    }
+
+    public void setImdbID(String imdbID) {
+        this.imdbID = imdbID;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
     public String getRegion() {
         return region;
     }
@@ -273,17 +260,5 @@ public class VideoBasic implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "VideoBasic{" +
-                "yURL='" + yURL + '\'' +
-                ", title='" + title + '\'' +
-                ", publishedTime=" + publishedTime +
-                ", poster='" + poster + '\'' +
-                ", region='" + region + '\'' +
-                ", episode=" + episode +
-                '}';
     }
 }

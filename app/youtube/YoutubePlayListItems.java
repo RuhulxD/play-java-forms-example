@@ -1,7 +1,9 @@
 package youtube;
 
 import com.google.api.services.youtube.YouTube;
-import com.google.api.services.youtube.model.*;
+import com.google.api.services.youtube.YouTube.PlaylistItems.List;
+import com.google.api.services.youtube.model.PlaylistItem;
+import com.google.api.services.youtube.model.PlaylistItemListResponse;
 import models.VideoBasic;
 import utility.Utils;
 
@@ -9,7 +11,6 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Singleton
@@ -17,7 +18,7 @@ public class YoutubePlayListItems {
 
     private YouTube youtube;
     private final String YOUTUBE_API;
-    private final YouTube.PlaylistItems.List playlist;
+    private final List playlist;
     private final long NUMBER_OF_VIDEOS_RETURNED =40;
 
     public YoutubePlayListItems() throws IOException {
@@ -41,10 +42,10 @@ public class YoutubePlayListItems {
 
 
 
-    public List<VideoBasic> fetchAllListItems(String playListId, YoutubeParser parser) throws IOException {
+    public java.util.List<VideoBasic> fetchAllListItems(String playListId, YoutubeParser parser) throws IOException {
 
         String nextToken = "";
-        List<VideoBasic> basics = new ArrayList<>();
+        java.util.List<VideoBasic> basics = new ArrayList<>();
         Set<String>ids= new HashSet<>();
 
         // Call the API one or more times to retrieve all items in the
@@ -60,7 +61,7 @@ public class YoutubePlayListItems {
                 try {
                     basic = Utils.convertTo(item, parser);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                   // e.printStackTrace();
                 }
                 if(basic != null){
                     if(!ids.contains(basic.getyURL())) {
@@ -68,11 +69,11 @@ public class YoutubePlayListItems {
                         basics.add(basic);
                         ids.add(basic.getyURL());
                     }else{
-                        System.err.println("###########DUPLICATE FOUND##############");
-                        System.err.println(basic.getyURL());
+//                        System.err.println("###########DUPLICATE FOUND##############");
+//                        System.err.println(basic.getyURL());
                     }
                 }else{
-                    System.err.println("#############null returned for "+ Utils.getString(item));
+//                    System.err.println("#############null returned for "+ Utils.getString(item));
                 }
             }
             nextToken = playlistItemResult.getNextPageToken();
@@ -89,7 +90,7 @@ public class YoutubePlayListItems {
             builder.setEpisode("[Ee]pi.*?(\\d+)");
             builder.setName("^Bangla Natok (\\w+) l");
 
-            List<VideoBasic> basics = playList.fetchAllListItems("PLsoqXr7gqLBxr9yKh-ezwlGBa8de8llNO", builder.createYoutubeParser());
+            java.util.List<VideoBasic> basics = playList.fetchAllListItems("PLsoqXr7gqLBxr9yKh-ezwlGBa8de8llNO", builder.createYoutubeParser());
             Utils.print(basics);
 
         } catch (IOException e) {

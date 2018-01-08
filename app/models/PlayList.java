@@ -20,21 +20,25 @@ public class PlayList extends BaseModel {
     @JsonProperty("thumb1")
     public String thumb1;
 
+    @JsonProperty("total")
+    public int total;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonProperty("Videos")
     public List<VideoBasic> videos;
 
-    public PlayList(){
+    public PlayList() {
         super();
     }
 
-    public PlayList(String id, @Constraints.Required String title, String thumb, String thumb1, List<VideoBasic> videos) {
+    public PlayList(String id, @Constraints.Required String title, String thumb, String thumb1, List<VideoBasic> videos, int total) {
         super();
         this.title = title;
         this.thumb = thumb;
         this.thumb1 = thumb1;
         this.videos = videos;
         this.id = id;
+        this.total = total;
     }
 
     public String getId() {
@@ -51,12 +55,14 @@ public class PlayList extends BaseModel {
 
     public void setVideos(List<VideoBasic> videos) {
         this.videos = videos;
+        this.total = videos.size();
     }
 
     @Override
     public String toString() {
         return "PlayList{" +
                 "id='" + id + '\'' +
+                ", total=" + total +
                 ", videos=" + videos +
                 '}';
     }
