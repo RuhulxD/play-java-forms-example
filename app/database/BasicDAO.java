@@ -32,7 +32,6 @@ public class BasicDAO<T> extends QueryStatements {
         } catch (Exception ex) {
             System.out.println("persist failed..." + t);
             try {
-                em.getTransaction().begin();
                 em.merge(t);
                 em.getTransaction().commit();
             } catch (Exception e) {

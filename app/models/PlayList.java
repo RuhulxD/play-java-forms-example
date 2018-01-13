@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -21,11 +22,12 @@ public class PlayList extends BaseModel {
     public String thumb1;
 
     @JsonProperty("total")
-    public int total;
+    public Integer total;
 
+    @Transient
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonProperty("Videos")
-    public List<VideoBasic> videos;
+    public List<VideoBasic> videos = Collections.emptyList();
 
     public PlayList() {
         super();

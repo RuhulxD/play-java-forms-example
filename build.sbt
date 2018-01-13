@@ -47,7 +47,14 @@ libraryDependencies += "com.google.api-client" % "google-api-client-extensions" 
 // https://mvnrepository.com/artifact/com.google.apis/google-api-services-youtube
 libraryDependencies += "com.google.apis" % "google-api-services-youtube" % "v3-rev156-1.20.0"
 
+libraryDependencies ++= Seq(evolutions, jdbc)
 
-//PlayKeys.externalizeResources := false
+
+
+PlayKeys.externalizeResources := false
 
 //conflictManager := ConflictManager.strict
+
+sources in (Compile, doc) := Seq.empty
+
+publishArtifact in (Compile, packageDoc) := false

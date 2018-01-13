@@ -69,6 +69,11 @@ public class PlayListController extends Controller {
         }
         return ok(Json.toJson(playList));
     }
+    public Result getPlayLists(int start, int limit) {
+        List<PlayList> playLists = dao.getPlayLists(start, limit);
+        Utils.print(playLists);
+        return ok(views.html.listPlayList.render(Scala.asScala(playLists)));
+    }
 
     public Result getPlayList(String id, int start, int limit) {
         PlayList playList = dao.getPlayList(id, start, limit);
@@ -100,7 +105,7 @@ public class PlayListController extends Controller {
         if(channelId ==null || channelId.isEmpty() || requestData.hasErrors()) {
             play.Logger.ALogger logger = play.Logger.of(getClass());
             logger.error("errors = {}", requestData.errors());
-            return badRequest(views.html.createPlaylist.render("PlayList", Scala.asScala(Collections.emptyList())));
+            return badRequest(views.html.createPlaylist.render("PlayList", requestData));
         } else {
             List<PlayList> playLists = Collections.emptyList();
             try {
@@ -109,9 +114,34 @@ public class PlayListController extends Controller {
             }catch (Exception ex){
                 flash("info", "Failed! App details =" + ex.getMessage());
             }
-            return ok(views.html.createPlaylist.render("playList", Scala.asScala(playLists)));
+            return ok(views.html.createPlaylist.render("playList", requestData));
         }
     }
+
+
+    public Result updatePlayList(String id){
+        Form<PlayList> form = forms.bindFromRequest();
+        PlayList list = dao.getPlayListDetails(id);
+        if(list ==null || form.hasErrors()) {
+            if(list!=null){
+                form.fill(list);
+            }
+            play.Logger.ALogger logger = play.Logger.of(getClass());
+            logger.error("errors = {}", form.errors());
+            return badRequest(views.html.updatePlaylist.render("PlayList", form, id));
+        } else {
+            PlayList list1 = form.get();
+            form.fill(list);
+            try {
+                dao.addToPlayList(list);
+                flash("info", "playlist updated! PlaylistId  =" + list.id);
+            }catch (Exception ex){
+                flash("info", "Failed! playlist details =" + ex.getMessage());
+            }
+            return ok(views.html.updatePlaylist.render("playList", form, id));
+        }
+    }
+
 
 
 

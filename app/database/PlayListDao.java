@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Singleton
@@ -24,6 +25,24 @@ public class PlayListDao {
     }
     //getPlaylist
 
+    public List<PlayList> getPlayLists(int start, int limit) {
+
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createNativeQuery("select a.title, a.total, a.thumb, a.id, a.thumb1 from playlist a", PlayList.class);
+            q.setFirstResult(start);
+            q.setMaxResults(limit);
+//            q.setParameter(1, start);
+//            q.setParameter(2, limit);
+
+            return q.getResultList();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Collections.emptyList();
+        } finally {
+            em.close();
+        }
+    }
     public PlayList getPlayListDetails(String id) {
 
         EntityManager em = getEntityManager();

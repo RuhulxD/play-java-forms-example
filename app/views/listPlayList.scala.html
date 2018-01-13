@@ -1,11 +1,15 @@
 @(apps: Seq[PlayList])
 
+@main("PlayList"){
 <h1>PlayList</h1>
 <table border=1>
     <thead>
     <tr>
         <th>id</th>
         <th>Title</th>
+        <th>Total</th>
+        <th>Thumb</th>
+        <th>Thumb1</th>
     </tr>
     </thead>
     <tbody>
@@ -13,9 +17,17 @@
     <tr>
         <td>@w.id</td>
         <td>@w.title</td>
+        <td>@w.total</td>
+        <td> @w.thumb
+            <img src="@w.thumb" alt="@w.thumb" width="150px"/>
+        </td>
+        <td>@w.thumb1
+            <img src="@w.thumb1" alt="@w.thumb1" width="150px"/>
+        </td>
     </tr>
     }
     </tbody>
 </table>
 
 <hr/>
+}

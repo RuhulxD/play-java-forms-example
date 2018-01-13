@@ -15,18 +15,22 @@ GET     /apps/get/:appid/:catType/                  controllers.AppController.ge
 GET     /apps/get/:appid/:catType/:start/:limit     controllers.AppController.getCategoriesWithList(appid:String, catType:Int, start:Int, limit:Int)
 GET     /apps                                       controllers.AdminPanel.createApplication
 GET     /apps/delete                                controllers.AdminPanel.deleteApplication
-POST    /apps                                       controllers.AdminPanel.createApplication
 GET     /apps/get/:appid                            controllers.AppController.getCategories(appid:String)
 
 # Category
 
+GET     /apps/showall                      controllers.AdminPanel.getCategory
 GET     /cats/:appid                      controllers.AdminPanel.createCategory(appid:String)
 POST    /cats/:appid                      controllers.AdminPanel.createCategory(appid:String)
 GET    /cats/delete/:appid                      controllers.AdminPanel.deleteCategory(appid:String)
 
 #playlist
 GET     /playlist/add                   controllers.PlayListController.createPlayListForm
+GET     /playlist/update/:id                   controllers.PlayListController.updatePlayList(id:String)
+
+GET     /playlist/view/:id/:start/:limit               controllers.AppController.viewPlayList(id:String, start:Int, limit:Int)
 GET     /playlist/get/:id               controllers.PlayListController.getPlayList(id:String)
+GET     /playlist/show/:start/:limit               controllers.PlayListController.getPlayLists(start:Int, limit:Int)
 
 
 # Videos
