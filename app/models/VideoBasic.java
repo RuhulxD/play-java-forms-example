@@ -20,10 +20,14 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ser.Serializers;
+import com.fasterxml.jackson.databind.JsonNode;
 import play.data.validation.Constraints;
+import play.libs.Json;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
 @Entity
@@ -32,7 +36,7 @@ import java.io.Serializable;
                 @UniqueConstraint(columnNames = {"yURL"})
         }
 )
-public class VideoBasic implements Serializable {
+public class VideoBasic extends AbstractJsonMapping implements Serializable {
 
     @Id
     @Constraints.Required
@@ -78,7 +82,7 @@ public class VideoBasic implements Serializable {
     public String imdbID;
 
 
-    @JsonProperty("ParserType")
+    @JsonProperty("Type")
     public String type;
 
 
@@ -260,5 +264,19 @@ public class VideoBasic implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public static void main(String[] args) {
+        VideoBasic basic = new VideoBasic();
+        basic.yURL="dsaff";
+        basic.actors="sdafas";
+        System.out.println(Json.toJson(basic));
+
+
+        JsonNode node = Json.parse("{\"Response\":false,\"Error\":\"\",\"youtubeURL\":\"dsaff\",\"Actors\":\"sdafas\"}");
+
+        VideoBasic basic1 = Json.fromJson(node, VideoBasic.class);
+
     }
 }

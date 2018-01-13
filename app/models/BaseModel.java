@@ -4,7 +4,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class BaseModel {
+public class BaseModel  extends AbstractJsonMapping{
     @Id
     public String id;
 

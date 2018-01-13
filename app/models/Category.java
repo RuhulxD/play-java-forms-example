@@ -36,18 +36,6 @@ public class Category extends BaseModel implements Serializable {
     public String description;
 
     @Override
-    public String toString() {
-        return "Category{" +
-                "name='" + name + '\'' +
-                ", value='" + value + '\'' +
-                ", title='" + title + '\'' +
-                ", type=" + type +
-                ", description='" + description + '\'' +
-                ", id='" + id + '\'' +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if(obj != null && obj instanceof Category){
             Category cat = (Category) obj;

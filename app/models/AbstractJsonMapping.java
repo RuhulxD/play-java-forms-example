@@ -20,14 +20,14 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.MappedSuperclass;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class AbstractJsonMapping{
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractJsonMapping.class);

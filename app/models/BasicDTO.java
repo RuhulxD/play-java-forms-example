@@ -1,7 +1,5 @@
 package models;
 
-import java.awt.*;
-
 public class BasicDTO extends AbstractJsonMapping{
     boolean status = false;
     int errorCode = 0;
