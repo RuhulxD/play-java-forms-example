@@ -4,6 +4,8 @@ import com.google.api.services.youtube.model.Playlist;
 import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.PlaylistItemSnippet;
 import com.google.api.services.youtube.model.SearchResult;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import models.*;
 import play.libs.Json;
 import youtube.YoutubeParser;
@@ -16,6 +18,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Utils {
+
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static VideoBasic converTo(SearchResult sr){
         VideoBasicBuilder bd = new VideoBasicBuilder();
@@ -73,7 +77,7 @@ public class Utils {
         System.out.println(getString(obj));
     }
     public static String getString(Object... obj){
-        return Json.prettyPrint(Json.toJson(obj));
+        return gson.toJson(obj);
     }
 
     public List getResult(Query q, Integer start, Integer limit, Object... parameter){
@@ -127,6 +131,7 @@ public class Utils {
             Field[] fields = c.getDeclaredFields();
             for (Field classField : fields) {
                 try {
+                    classField.setAccessible(true);
                     Object o = classField.get(obj);
                     strings.add(o == null ? "null" : o.toString());
                 } catch (IllegalAccessException e) {
@@ -153,8 +158,8 @@ public class Utils {
     }
     public static void main(String... args){
         Category category = new Category();
-        category.name ="sadf";
-        category.id="23213";
+        category.setName("sadf");
+        category.setId("23213");
 
         System.out.println(buildHeader(category));
         System.out.println(buildRow(category));

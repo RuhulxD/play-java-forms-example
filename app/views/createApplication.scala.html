@@ -9,9 +9,10 @@
 
     @helper.form(call) {
         @helper.CSRF.formField
-        @form.data().asScala.map{ case (name, value) =>
-            @helper.inputText(form(name))
-        }
+        @helper.inputText(form("name"))
+        @helper.inputText(form("apiKey"))
+        @helper.inputText(form("description"))
+
         <button type="submit">Create Applications</button>
     }
 }

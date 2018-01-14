@@ -159,7 +159,7 @@ public class PlayListDao {
     }
 
     private String insertIntoVideo() {
-        return "insert IGNORE into videos " +
+        return "insert into videos " +
                 " (actors, channelId, description, episode, genre, imdbID," +
                 "  name, poster, publishedTime, region, season, tags," +
                 "  title, type, year, yURL) " +
@@ -218,7 +218,7 @@ public class PlayListDao {
             bindPlaylist(em, list).executeUpdate();
             for(VideoBasic video: list.getVideos()){
                 bindVideo(em, video).executeUpdate();
-                bindInsertIntoPlayVideo(em, list.id, video.yURL).executeUpdate();
+                bindInsertIntoPlayVideo(em, list.getId(), video.getyURL()).executeUpdate();
             }
             em.getTransaction().commit();
             return true;

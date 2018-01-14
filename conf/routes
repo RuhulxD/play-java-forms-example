@@ -26,6 +26,7 @@ GET    /cats/delete/:appid                      controllers.AdminPanel.deleteCat
 
 #playlist
 GET     /playlist/add                   controllers.PlayListController.createPlayListForm
+GET     /playlist/add                   controllers.PlayListController.createPlayListFromPlaylistId
 GET     /playlist/update/:id                   controllers.PlayListController.updatePlayList(id:String)
 
 GET     /playlist/view/:id/:start/:limit               controllers.AppController.viewPlayList(id:String, start:Int, limit:Int)

@@ -45,15 +45,6 @@ public class AdminPanel extends Controller {
             play.Logger.ALogger logger = play.Logger.of(getClass());
             logger.error("errors = {}", boundForm.errors());
             Application application = new Application();
-            application.apiKey="";
-            application.name="";
-            application.description="";
-            application.id="";
-
-            boundForm.data().put("apiKey", "");
-            boundForm.data().put("name", "");
-            boundForm.data().put("description", "");
-            boundForm.data().put("id", "");
             return badRequest(views.html.createApplication.render(boundForm, Scala.asScala(adminDAO.getApplications()), routes.AdminPanel.createApplication()));
         } else {
             Application data = boundForm.get();
@@ -69,6 +60,7 @@ public class AdminPanel extends Controller {
     public Result deleteApplication() {
         DynamicForm requestData = factory.form().bindFromRequest();
         String cat = requestData.get("name");
+        System.out.println("got name: "+ cat);
         boolean status =adminDAO.deleteApplication(cat);
         if(status){
             flash("info", "App deleted! Category details =" + cat);
@@ -96,8 +88,8 @@ public class AdminPanel extends Controller {
         } else {
             Category data = boundForm.get();
             try {
-                if(data.id==null || data.id.isEmpty()){
-                    data.id = Long.toString(System.currentTimeMillis());
+                if(data.getId()==null || data.getId().isEmpty()){
+                    data.setId(Long.toString(System.currentTimeMillis()));
                 }
                 adminDAO.addCategory(data);
                 flash("info", "Categories added! Category details =" + data.toString());

@@ -5,6 +5,7 @@ import models.Application;
 import models.PlayList;
 import models.PlayListBuilder;
 import models.VideoBasic;
+import play.api.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
@@ -47,7 +48,7 @@ public class PlayListController extends Controller {
         return createPlayList(playlistId, false);
     }
 
-    public Result createPlayList(String playlistId, boolean withVideos) {
+    public PlayList createPlayList(String playlistId, boolean withVideos) {
         try {
             PlayList playList = dao.getPlayListDetails(playlistId);
             if (withVideos) {
@@ -55,11 +56,11 @@ public class PlayListController extends Controller {
                 playList.setVideos(videList);
             }
             boolean b = dao.addToPlayList(playList);
-            return response(b);
+            return  playList;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return response(false);
+        return null;
     }
 
     public Result getPlayList(String id) {
@@ -88,7 +89,7 @@ public class PlayListController extends Controller {
         try {
              playLists = channelPlayList.fetchAllPlayList(channelId, null);
             for (PlayList list : playLists) {
-                List<VideoBasic> videos = youtube.fetchAllListItems(list.id, null);
+                List<VideoBasic> videos = youtube.fetchAllListItems(list.getId(), null);
                 list.setVideos(videos);
             }
             dao.addToPlayList(playLists);
@@ -118,6 +119,25 @@ public class PlayListController extends Controller {
         }
     }
 
+    public Result createPlayListFromPlaylistId(){
+        DynamicForm requestData = factory.form().bindFromRequest();
+        String channelId = requestData.get("playlist");
+        if(channelId ==null || channelId.isEmpty() || requestData.hasErrors()) {
+            play.Logger.ALogger logger = play.Logger.of(getClass());
+            logger.error("errors = {}", requestData.errors());
+            return badRequest(views.html.createPlaylist.render("PlayList", requestData));
+        } else {
+            List<VideoBasic> playLists = Collections.emptyList();
+            try {
+                cr
+                flash("info", "Apps added! ChannelId details =" + channelId.toString());
+            }catch (Exception ex){
+                flash("info", "Failed! App details =" + ex.getMessage());
+            }
+            return ok(views.html.createPlaylist.render("playList", requestData));
+        }
+    }
+
 
     public Result updatePlayList(String id){
         Form<PlayList> form = forms.bindFromRequest();
@@ -134,7 +154,7 @@ public class PlayListController extends Controller {
             form.fill(list);
             try {
                 dao.addToPlayList(list);
-                flash("info", "playlist updated! PlaylistId  =" + list.id);
+                flash("info", "playlist updated! PlaylistId  =" + list.getId());
             }catch (Exception ex){
                 flash("info", "Failed! playlist details =" + ex.getMessage());
             }

@@ -24,13 +24,6 @@
 
     @helper.form(routes.AdminPanel.createCategory(appid)) {
         @helper.CSRF.formField
-
-    <!--<select name="name">-->
-        <!--@for(w <- cats) {-->
-            <!--<option value="@w.value">@w.value</option>-->
-        <!--}-->
-    <!--</select>-->
-
         @helper.inputText(form("id"))
 
         @helper.inputText(form("name"))

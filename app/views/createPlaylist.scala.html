@@ -8,4 +8,11 @@
             <label>ChannelId</label><input type="text" id="channelid" name="channel">
             <button type="submit">Create Category</button>
         }
+
+        <h1>Create Playlist from PlaylistId</h1>
+        @helper.form(routes.PlayListController.createPlayListFromPlaylistId) {
+            @helper.CSRF.formField
+            <label>ChannelId</label><input type="text" id="playlist" name="playlist">
+            <button type="submit">Create Playlist</button>
+        }
 }

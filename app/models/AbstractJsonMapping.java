@@ -24,13 +24,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class AbstractJsonMapping{
-
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractJsonMapping.class);
     private boolean response = Boolean.FALSE;
     @JsonProperty("Error")
     private String error = "";
@@ -67,8 +63,6 @@ public abstract class AbstractJsonMapping{
         StringBuilder unknown = new StringBuilder(this.getClass().getSimpleName());
         unknown.append(": Unknown property='").append(key);
         unknown.append("' value='").append(value).append("'");
-
-        LOG.trace(unknown.toString());
     }
 
     @Override

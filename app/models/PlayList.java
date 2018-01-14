@@ -24,9 +24,9 @@ public class PlayList extends BaseModel {
     @JsonProperty("total")
     public Integer total;
 
-    @Transient
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
     @JsonProperty("Videos")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<VideoBasic> videos = Collections.emptyList();
 
     public PlayList() {
@@ -68,4 +68,8 @@ public class PlayList extends BaseModel {
                 ", videos=" + videos +
                 '}';
     }
+
+
+
+
 }

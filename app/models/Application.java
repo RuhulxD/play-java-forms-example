@@ -13,13 +13,37 @@ public class Application extends BaseModel implements Serializable {
 
     @Unique
     @Constraints.Required
-    public String name;
+    private String name;
 
 
     @Constraints.Required
-    public String apiKey;
+    private String apiKey;
 
 
     @Constraints.Required
-    public String description;
+    private String description;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

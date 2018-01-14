@@ -47,6 +47,11 @@ libraryDependencies += "com.google.api-client" % "google-api-client-extensions" 
 // https://mvnrepository.com/artifact/com.google.apis/google-api-services-youtube
 libraryDependencies += "com.google.apis" % "google-api-services-youtube" % "v3-rev156-1.20.0"
 
+// https://mvnrepository.com/artifact/com.google.code.gson/gson
+libraryDependencies += "com.google.code.gson" % "gson" % "2.8.2"
+
+
+
 libraryDependencies ++= Seq(evolutions, jdbc)
 
 
